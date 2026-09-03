@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TECHNOT 2.0</title>
+
+  <link rel="stylesheet" href="styles.css?v=5" />
+  <link rel="stylesheet" href="cinematic-intro.css?v=2" />
+</head>
+
+<body>
+  <!-- Cinematic Intro Overlay -->
+  <div id="cinematic-intro-overlay" role="status" aria-label="TECHNOT 2.0 loading intro">
+    <canvas id="cinematic-particles" class="cinematic-particles" aria-hidden="true"></canvas>
+    <div class="cinematic-intro-bg"></div>
+    <div class="intro-scanlines" aria-hidden="true"></div>
+
+    <div class="cinematic-brand-stack">
+      <div class="cinematic-logo-wrapper">
+        <div class="cinematic-bloom-layer"></div>
+        <div class="cinematic-glow-layer"></div>
+        <div class="cinematic-ring ring-one"></div>
+        <div class="cinematic-ring ring-two"></div>
+        <div class="cinematic-ring ring-three"></div>
+        <div class="core-outline"></div>
+        <div class="core-scan"></div>
+        <img src="assets/intro-logo.png" alt="TECHKNOT arc reactor core" class="cinematic-logo-img" />
+      </div>
+      <div class="core-status" aria-hidden="true">
+        <span>TECHNOT CORE</span>
+        <strong>ONLINE</strong>
+      </div>
+      <img src="assets/techknot-brand-logo.png" alt="TECHKNOT 2.0" class="cinematic-wordmark-img" />
+    </div>
+    <div class="energy-tunnel" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="intro-flash" aria-hidden="true"></div>
+  </div>
+  <!-- Primary Navigation Removed (now in Hero) -->
+  <main class="experience" aria-label="TECHNOT 2.0 opening cinematic">
+    <canvas id="space" class="space-canvas"></canvas>
+
+    <section class="intro-stage" aria-label="Opening intro">
+      <div class="ambient-field"></div>
+      <div class="boot boot-a" data-boot>INITIALIZING TECHNOT NETWORK</div>
+      <div class="boot boot-b" data-boot>CORE SYSTEM ........ INITIALIZING</div>
+      <div class="boot boot-c" data-boot>NETWORK ............. CONNECTING</div>
+      <div class="boot boot-d" data-boot>EVENT DATABASE ...... LOADING</div>
+      <div class="boot boot-e" data-boot>TECH MODULES ........ LOADING</div>
+      <div class="boot boot-f" data-boot>REGISTRATION ........ STANDBY</div>
+      <div class="boot boot-g" data-boot>TECHNOT CORE ........ DETECTED</div>
+
+      <div class="camera-rig">
+        <div class="logo-system" aria-hidden="true">
+          <div class="logo-glow"></div>
+          <div class="logo-shell">
+            <img src="assets/img/technot-logo.png" alt="" class="logo logo-shadow" />
+            <img src="assets/img/technot-logo.png" alt="" class="logo logo-main" />
+            <div class="logo-edge"></div>
+            <div class="scanner scanner-horizontal"></div>
+            <div class="scanner scanner-vertical"></div>
+            <svg class="energy-svg" viewBox="0 0 1536 931" preserveAspectRatio="xMidYMid meet">
+              <path class="energy-path path-a"
+                d="M472 308 L633 148 L799 148 L948 304 L1110 304 L1192 386 L1192 530 L1027 697 L858 697 L768 607 L676 697 L508 697 L344 532 L344 386 Z" />
+              <path class="energy-path path-b" d="M422 455 L558 319 L715 319 L978 581 L1110 581" />
+              <path class="energy-path path-c" d="M1128 455 L992 319 L835 319 L572 581 L440 581" />
+              <path class="energy-path path-d" d="M628 213 L911 496 L1087 320" />
+              <path class="energy-path path-e" d="M908 718 L625 435 L449 611" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="pulse-ring pulse-one"></div>
+      <div class="pulse-ring pulse-two"></div>
+      <div class="tunnel tunnel-left"></div>
+      <div class="tunnel tunnel-right"></div>
+      <div class="whiteout"></div>
+    </section>
+
+    <section class="hero-placeholder" id="home" aria-label="TECHKNOT 2.0 hero">
+      <nav class="hero-nav" aria-label="Hero Navigation" data-parallax="0.1">
+        <a class="hero-brand" href="#home" data-nav-target="home">
+          <img src="assets/techknot-brand-logo.png" alt="TECHKNOT 2.0" />
+        </a>
+        <div class="hero-nav-links">
+          <a href="#home" data-nav-target="home" class="is-active">HOME</a>
+          <a href="#events" data-nav-target="events">EVENTS</a>
+          <a href="#footer" data-nav-target="footer">ABOUT</a>
+        </div>
+      </nav>
+      <div class="hero-network" data-parallax="0.22"></div>
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-scan-field" aria-hidden="true"></div>
+      <div class="hero-video-stage" aria-hidden="true">
+        <div class="hero-video-glow"></div>
+        <video class="hero-human-video" src="assets/hero-futuristic-human.mp4" autoplay muted loop playsinline
+          preload="metadata"></video>
+        <div class="hero-video-vignette"></div>
+        <div class="hero-code-field">
+          <span>SIGNAL // STABLE</span>
+          <span>0101001</span>
+          <span>SCAN // ACTIVE</span>
+          <span>MODULE // TECHKNOT</span>
+          <span>1100101</span>
+          <span>DATA STREAM</span>
+        </div>
+        <div class="hero-video-scan"></div>
+      </div>
+      <div class="hero-giant-version" data-parallax="0.52" aria-hidden="true">2.0</div>
+      <div class="hero-content" data-parallax="0.68">
+        <div class="hero-rule hero-rule-main" aria-hidden="true"></div>
+        <p class="hero-kicker" data-hero-item>TECH FESTIVAL NETWORK</p>
+        <h1 class="hero-title" aria-label="TECHKNOT 2.0">
+          <span class="title-mask">
+            <span class="hero-title-word">TECHKNOT</span>
+          </span>
+          <span class="hero-version">2.0</span>
+          <span class="title-sweep" aria-hidden="true"></span>
+        </h1>
+        <p class="hero-tagline" data-hero-item>THE FUTURE IS CONNECTED</p>
+        <div class="hero-actions" data-hero-item>
+          <a class="hero-cta" href="#events" data-nav-target="events">
+            <span>ENTER EVENT NETWORK</span>
+            <span class="hero-cta-scan" aria-hidden="true"></span>
+          </a>
+          <div class="hero-date-module" data-hero-item>
+            <span>EVENT DATE</span>
+            <strong>11 / 09 / 2026</strong>
+          </div>
+
+        </div>
+        <div class="hero-rule hero-rule-sub" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section class="events-section" id="events" aria-label="TECHNOT 2.0 events">
+      <div class="events-pin">
+        <canvas id="events-canvas" class="events-canvas"></canvas>
+        <div class="corridor" aria-hidden="true">
+          <div class="depth-fog"></div>
+          <div class="vanishing-core"></div>
+          <div class="ceiling-lights">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="floor-plane"></div>
+          <div class="rack-wall rack-left">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="rack-wall rack-right">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="data-lines data-left">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="data-lines data-right">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <header class="events-head">
+          <img src="assets/intro-logo.png" alt="" class="section-brand-mark" aria-hidden="true" />
+          <p>MISSION DATABASE</p>
+          <h2>EVENTS</h2>
+          <span>SELECT YOUR CHALLENGE</span>
+        </header>
+
+        <svg class="event-connections" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
+          <path data-connection="0" d="M600 126 C492 198 414 245 342 334 C303 382 287 430 246 514" />
+          <path data-connection="1" d="M600 124 C710 191 805 240 892 324 C944 374 955 432 1000 514" />
+          <path data-connection="2" d="M600 132 C555 211 534 292 500 380 C481 430 449 475 414 552" />
+          <path data-connection="3" d="M600 132 C653 217 682 289 710 378 C730 442 759 485 806 552" />
+          <path data-connection="4" d="M600 126 C520 210 438 276 345 365 C300 409 239 445 170 574" />
+          <path data-connection="5" d="M600 126 C698 214 786 280 885 368 C941 417 990 466 1085 574" />
+        </svg>
+
+        <div class="event-modules" id="event-modules-container">
+          <!-- Dynamically populated by events.js -->
+        </div>
+
+        <div class="events-end">END OF EVENT NETWORK</div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="technot-footer" id="footer">
+      <div class="footer-grid-bg" aria-hidden="true"></div>
+      <div class="footer-content">
+        <div class="footer-brand-block">
+          <img src="assets/techknot-brand-logo.png" alt="TECHKNOT 2.0" class="footer-logo" />
+          <p>TECHNICAL FESTIVAL 2026</p>
+        </div>
+        <div class="footer-separator" aria-hidden="true"><span></span></div>
+        <div class="footer-columns">
+          <div class="footer-column">
+            <h2>EVENT</h2>
+            <a href="#home" data-nav-target="home">HOME</a>
+            <a href="#events" data-nav-target="events">EVENTS</a>
+
+          </div>
+          <div class="footer-column">
+            <h2>DATE</h2>
+            <strong>11 / 09 / 2026</strong>
+            <span>REGISTRATION // OPEN</span>
+          </div>
+          <div class="footer-column">
+            <h2>CREDIT</h2>
+            <span>MADE BY GJP(GHANSHYAM JANTA PARTY)</span>
+            <span>MADE WITH TECHNOLOGY</span>
+          </div>
+        </div>
+        <div class="footer-base">
+          <span>TECHNOT 2.0</span>
+          <span>SYSTEM // COMPLETE</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Event Details Overlay -->
+    <section class="event-details-overlay" id="event-details" aria-hidden="true">
+      <div class="details-network-bg"></div>
+      <button type="button" class="back-to-events-btn" id="close-details" aria-label="Back to events">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        <span>BACK TO EVENTS</span>
+      </button>
+
+      <div class="details-content-wrapper">
+        <header class="details-header">
+          <p id="detail-event-number" class="detail-kicker">EVENT // 00</p>
+          <h1 id="detail-event-name">EVENT NAME</h1>
+          <p id="detail-tagline" class="detail-tagline">Event tagline</p>
+          <p id="detail-module-name" class="detail-module-name">CATEGORY // MODULE</p>
+        </header>
+
+        <div class="details-grid">
+          <div class="details-main">
+            <div class="detail-section">
+              <p id="detail-description">Description goes here.</p>
+            </div>
+
+            <div class="detail-section rules-module">
+              <h3>RULES & REGULATIONS</h3>
+              <ol class="technical-list" id="detail-rules-list">
+                <!-- Dynamically populated -->
+              </ol>
+            </div>
+          </div>
+
+          <aside class="details-sidebar">
+            <div class="info-section info-module-heading">
+              <h3>EVENT INFORMATION</h3>
+            </div>
+            <div class="info-block-grid">
+              <div class="info-block">
+                <dt>TIME</dt>
+                <dd id="detail-time">TBA</dd>
+              </div>
+
+              <div class="info-block">
+                <dt>TEAM SIZE</dt>
+                <dd id="detail-team-size">TBA</dd>
+              </div>
+              <div class="info-block" id="format-block" style="display: none;">
+                <dt>FORMAT</dt>
+                <dd id="detail-format">TBA</dd>
+              </div>
+
+            </div>
+
+            <div class="info-section">
+              <h3>COORDINATORS</h3>
+              <ul class="coordinator-list" id="detail-coordinators-list">
+                <!-- Dynamically populated -->
+              </ul>
+            </div>
+
+
+
+            <div class="cta-container">
+              <div class="cta-connection-line"></div>
+              <a href="#" class="register-cta" id="detail-register-btn">
+                <span>REGISTER FOR THIS EVENT</span>
+                <div class="cta-scan"></div>
+              </a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Registration Terminal Overlay -->
+    <section class="registration-overlay" id="registration-overlay" aria-hidden="true">
+      <div class="registration-network-bg"></div>
+      <button type="button" class="back-to-events-btn" id="close-registration">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        <span>BACK TO EVENT DETAILS</span>
+      </button>
+
+      <div class="registration-content-wrapper">
+        <header class="registration-header">
+
+          <h1 id="reg-event-name">EVENT NAME</h1>
+          <p id="reg-event-tagline" class="detail-tagline">Event tagline</p>
+
+        </header>
+
+        <form id="technot-registration-form" class="technot-form">
+          <input type="hidden" id="reg-event-id" name="eventId" value="">
+
+          <fieldset class="form-section">
+            <legend id="team-info-legend">TEAM INFORMATION</legend>
+            <div class="input-group" id="team-name-group">
+              <label for="team-name">TEAM NAME</label>
+              <div class="input-wrapper">
+                <input type="text" id="team-name" name="teamName" placeholder="ENTER TEAM IDENTIFIER" required>
+                <div class="input-corners"></div>
+              </div>
+              <div class="error-msg"></div>
+            </div>
+      </div>
+      </fieldset>
+
+      <fieldset class="form-section">
+        <legend>PRIMARY CONTACT</legend>
+        <div class="input-group">
+          <label for="department">DEPARTMENT</label>
+          <div class="input-wrapper">
+            <input type="text" id="department" name="department" value="COMPUTER" readonly>
+            <div class="input-corners"></div>
+          </div>
+        </div>
+        </div>
+        <div class="input-group">
+          <label for="contact-phone">PRIMARY CONTACT PHONE</label>
+          <div class="input-wrapper">
+            <input type="tel" id="contact-phone" name="contactPhone" placeholder="ENTER PHONE NUMBER" required>
+            <div class="input-corners"></div>
+          </div>
+          <div class="error-msg"></div>
+        </div>
+        <div class="input-group">
+          <label for="contact-email">PRIMARY CONTACT EMAIL</label>
+          <div class="input-wrapper">
+            <input type="email" id="contact-email" name="contactEmail" placeholder="ENTER EMAIL" required>
+            <div class="input-corners"></div>
+          </div>
+          <div class="error-msg"></div>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-section" id="team-members-section">
+        <legend>TEAM MEMBERS</legend>
+        <div id="members-container">
+          <!-- Dynamically populated -->
+        </div>
+      </fieldset>
+
+      <fieldset class="form-section confirmation-section">
+        <label class="checkbox-label">
+          <input type="checkbox" id="confirm-check" required>
+          <span class="custom-checkbox"></span>
+          I confirm that the information provided is correct.
+        </label>
+        <div class="error-msg"></div>
+      </fieldset>
+
+      <div class="form-submit-wrapper">
+        <button type="submit" id="submit-registration" class="register-cta">
+          <span class="btn-text">SUBMIT REGISTRATION</span>
+          <div class="cta-scan"></div>
+        </button>
+      </div>
+      </form>
+
+      <div id="registration-success" class="registration-success" style="display: none;">
+        <div class="success-content">
+          <h2>MISSION ACCEPTED</h2>
+          <p>TECHNOT 2.0</p>
+          <p>EVENT // <span id="success-event"></span></p>
+          <p>TEAM // <span id="success-team"></span></p>
+          <p class="status-complete">REGISTRATION // COMPLETE</p>
+        </div>
+      </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer" class="technot-footer">
+    <div class="footer-content">
+      <p class="footer-kicker">PRESENTED BY</p>
+      <p class="footer-brand">GOVERNMENT POLYTECHNIC DAHOD</p>
+      <p class="footer-dept">COMPUTER DEPARTMENT</p>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/vendor/ScrollTrigger.min.js"></script>
+  <script src="cinematic-intro.js?v=2"></script>
+  <script src="intro.js?v=2"></script>
+  <script src="hero.js?v=1"></script>
+  <script src="brand-nav.js?v=1"></script>
+  <script src="events.js?v=2"></script>
+</body>
+
+</html>
