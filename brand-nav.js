@@ -1,11 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-// Force scroll to top on load to prevent jumping to footer from legacy URL hashes
-if (window.location.hash) {
-  history.replaceState("", document.title, window.location.pathname + window.location.search);
-}
-window.scrollTo(0, 0);
-
   const root = document.documentElement;
   const header = document.querySelector(".site-header");
   const menuToggle = document.querySelector(".site-menu-toggle");

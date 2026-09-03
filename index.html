@@ -6,6 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TECHNOT 2.0</title>
 
+  <!-- Prevent browser anchor jump glitches synchronously on load -->
+  <script>
+    if (window.location.hash) {
+      window.history.replaceState("", document.title, window.location.pathname + window.location.search);
+    }
+  </script>
+
   <link rel="stylesheet" href="styles.css?v=5" />
   <link rel="stylesheet" href="cinematic-intro.css?v=2" />
 </head>
