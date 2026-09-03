@@ -11,6 +11,10 @@
     if (window.location.hash) {
       window.history.replaceState("", document.title, window.location.pathname + window.location.search);
     }
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
   </script>
 
   <link rel="stylesheet" href="styles.css?v=5" />
