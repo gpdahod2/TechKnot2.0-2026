@@ -24,27 +24,40 @@ function setupEventsCanvas() {
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   }
 
-  function render(time) {
-    const t = time * 0.001;
-    ctx.clearRect(0, 0, state.width, state.height);
+  let isActive = false;
+  function checkActive() {
+    const rect = canvas.getBoundingClientRect();
+    isActive = rect.top < window.innerHeight && rect.bottom > 0;
+  }
+  
+  window.addEventListener("scroll", checkActive, { passive: true });
+  window.addEventListener("resize", () => { resize(); checkActive(); }, { passive: true });
+  checkActive();
 
-    particles.forEach((particle) => {
-      const x = particle.x * state.width + Math.sin(t * particle.speed + particle.y * 8) * 28;
-      const y = ((particle.y * state.height + state.scroll * particle.speed * 0.12) % (state.height + 80)) - 40;
-      ctx.fillStyle = `rgba(10, 110, 211,${particle.alpha})`;
-      ctx.fillRect(x, y, particle.r, particle.r);
-    });
+  function render(time) {
+    if (isActive) {
+      const t = time * 0.001;
+      ctx.clearRect(0, 0, state.width, state.height);
+
+      particles.forEach((particle) => {
+        const x = particle.x * state.width + Math.sin(t * particle.speed + particle.y * 8) * 28;
+        const y = ((particle.y * state.height + state.scroll * particle.speed * 0.12) % (state.height + 80)) - 40;
+        ctx.fillStyle = `rgba(10, 110, 211,${particle.alpha})`;
+        ctx.fillRect(x, y, particle.r, particle.r);
+      });
+    }
 
     requestAnimationFrame(render);
   }
 
-  window.addEventListener("resize", resize);
   window.addEventListener("scroll", () => {
     state.scroll = window.scrollY;
   }, { passive: true });
   resize();
   requestAnimationFrame(render);
 }
+
+let isModalAnimating = false;
 
 const eventData = [
   {
@@ -214,6 +227,7 @@ function escapeHTML(value) {
 }
 
 function openEventDetails(eventId, clickedModule) {
+  if (isModalAnimating) return;
   const event = eventData.find(e => e.id === eventId);
   if (!event) return;
 
@@ -261,7 +275,8 @@ function openEventDetails(eventId, clickedModule) {
     return;
   }
 
-  const tl = gsap.timeline();
+  isModalAnimating = true;
+  const tl = gsap.timeline({ onComplete: () => isModalAnimating = false });
 
   // Fade out other modules and push them back
   const otherModules = allModules.filter(m => m !== clickedModule);
@@ -318,6 +333,7 @@ function openEventDetails(eventId, clickedModule) {
 }
 
 function closeEventDetails() {
+  if (isModalAnimating) return;
   const eventOverlay = document.getElementById("event-details");
   const allModules = Array.from(document.querySelectorAll(".event-module"));
   const paths = Array.from(document.querySelectorAll("[data-connection]"));
@@ -330,7 +346,8 @@ function closeEventDetails() {
     return;
   }
 
-  const tl = gsap.timeline();
+  isModalAnimating = true;
+  const tl = gsap.timeline({ onComplete: () => isModalAnimating = false });
 
   tl.to(eventOverlay, {
     autoAlpha: 0,
@@ -366,6 +383,7 @@ function closeEventDetails() {
 }
 
 function openRegistration(eventId) {
+  if (isModalAnimating) return;
   const event = eventData.find(e => e.id === eventId);
   if (!event) return;
   const isFreeFire = event.id === "freefire";
@@ -498,7 +516,8 @@ ${semesterHtml}
     return;
   }
 
-  const tl = gsap.timeline();
+  isModalAnimating = true;
+  const tl = gsap.timeline({ onComplete: () => isModalAnimating = false });
 
   // Push details further back
   tl.to(detailsOverlay, {
@@ -533,6 +552,7 @@ ${semesterHtml}
 }
 
 function closeRegistration() {
+  if (isModalAnimating) return;
   const detailsOverlay = document.getElementById("event-details");
   const regOverlay = document.getElementById("registration-overlay");
   const openedDirectly = document.body.dataset.registrationSource === "global";
@@ -549,7 +569,8 @@ function closeRegistration() {
     return;
   }
 
-  const tl = gsap.timeline();
+  isModalAnimating = true;
+  const tl = gsap.timeline({ onComplete: () => isModalAnimating = false });
 
   tl.to(regOverlay, {
     autoAlpha: 0,
@@ -841,7 +862,10 @@ function setupEventsSection() {
   }
 }
 
+let eventsInitialized = false;
 function initEvents() {
+  if (eventsInitialized) return;
+  eventsInitialized = true;
   const startEvents = () => setupEventsSection();
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("intro-complete")) {

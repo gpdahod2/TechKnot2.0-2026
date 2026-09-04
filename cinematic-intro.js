@@ -208,15 +208,15 @@ document.addEventListener("DOMContentLoaded", () => {
       .to(state, { glow: 1, pull: 0.94, duration: 0.85, ease: "sine.inOut" }, 3.75)
 
       .to(".core-status", { opacity: 1, y: -2, duration: 0.38, ease: "power2.out" }, 4.58)
-      .to(".cinematic-logo-img", { scale: 1.045, filter: "brightness(1.34) saturate(1.18) contrast(1.12) drop-shadow(0 0 24px rgba(10, 110, 211,0.56))", duration: 0.22, yoyo: true, repeat: 1, ease: "power2.out" }, 4.78)
+      .to(".cinematic-logo-img", { scale: 1.045, duration: 0.22, yoyo: true, repeat: 1, ease: "power2.out" }, 4.78)
       .to(".cinematic-bloom-layer", { opacity: 0.78, scale: 1.18, duration: 0.24, yoyo: true, repeat: 1, ease: "power2.out" }, 4.8)
 
       .to(".intro-hud", { opacity: 0.16, duration: 0.5, ease: "power2.out" }, 5.45)
       .to(".cinematic-logo-wrapper", { scale: 1.04, duration: 0.58, ease: "sine.inOut" }, 5.82)
 
-      .to(".cinematic-logo-wrapper", { scale: 1.24, filter: "blur(0px)", duration: 0.46, ease: "power2.inOut" }, 6.24)
+      .to(".cinematic-logo-wrapper", { scale: 1.24, duration: 0.46, ease: "power2.inOut" }, 6.24)
       .to(".core-status", { opacity: 0, y: -12, duration: 0.3, ease: "power2.in" }, 6.42)
-      .to(".cinematic-logo-wrapper", { scale: 6.2, filter: "blur(1.8px)", duration: 0.78, ease: "expo.in" }, 6.52)
+      .to(".cinematic-logo-wrapper", { scale: 6.2, duration: 0.78, ease: "expo.in" }, 6.52)
       .to(state, { rush: 1, glow: 1.1, duration: 0.72, ease: "power3.in" }, 6.52)
       .to(".energy-tunnel", { opacity: 1, duration: 0.18, ease: "power2.out" }, 6.75)
       .to(".energy-tunnel span", { opacity: 0.9, scaleX: 1.85, duration: 0.46, stagger: 0.018, ease: "power3.in" }, 6.8)

@@ -4,6 +4,7 @@ let threeState;
 
 function completeIntro() {
   if (document.documentElement.classList.contains("intro-complete")) return;
+  if (threeState) threeState.running = false;
 
   const intro = document.querySelector(".intro-stage");
   const hero = document.querySelector(".hero-placeholder");
@@ -83,7 +84,8 @@ function setupCanvasSpace() {
     cameraZ: 34,
     particleRush: 0,
     width: 0,
-    height: 0
+    height: 0,
+    running: true
   };
 
   function resize() {
@@ -121,6 +123,7 @@ function setupCanvasSpace() {
   }
 
   function render(time) {
+    if (!state.running) return;
     const t = time * 0.001;
     ctx.clearRect(0, 0, state.width, state.height);
 
@@ -285,7 +288,8 @@ function setupThreeSpace() {
     particleGeometry,
     velocities,
     network,
-    packets
+    packets,
+    running: true
   };
 
   function resize() {
@@ -295,6 +299,7 @@ function setupThreeSpace() {
   }
 
   function render() {
+    if (!state.running) return;
     const position = particleGeometry.attributes.position;
     const elapsed = performance.now() * 0.001;
     particles.rotation.z = elapsed * 0.015;

@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let played = false;
   let parallaxActive = !reducedMotion;
   let ambientTween = null;
+  const infiniteTweens = [];
   const video = hero.querySelector(".hero-human-video");
 
   if (video) {
@@ -99,24 +100,28 @@ document.addEventListener("DOMContentLoaded", () => {
       delay: 2.35
     });
 
-    gsap.to(".hero-giant-version", {
-      y: -14,
-      duration: 6.5,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-      delay: 2.15
-    });
-
-    gsap.to(".hero-video-glow", {
-      opacity: 0.78,
-      duration: 5.8,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-      delay: 2.4
-    });
-  }
+    if (ambientTween) infiniteTweens.push(ambientTween);
+    
+    if (window.gsap) {
+      infiniteTweens.push(gsap.to(".hero-giant-version", {
+        y: -14,
+        duration: 6.5,
+        yoyo: true,
+        repeat: -1,
+        ease: "sine.inOut",
+        delay: 2.15
+      }));
+      
+      infiniteTweens.push(gsap.to(".hero-video-glow", {
+        opacity: 0.78,
+        duration: 5.8,
+        yoyo: true,
+        repeat: -1,
+        ease: "sine.inOut",
+        delay: 2.4
+      }));
+    }
+  } // End of playHeroIntro
 
   function setupParallax() {
     if (!window.gsap || reducedMotion) return;
@@ -151,11 +156,38 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("blur", reset);
   }
 
+  let heroObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const isVisible = entry.isIntersecting && !document.hidden;
+      parallaxActive = isVisible && !reducedMotion;
+      
+      infiniteTweens.forEach(t => {
+        if (isVisible) t.play();
+        else t.pause();
+      });
+      
+      if (!video) return;
+      if (isVisible && played) {
+        startVideo();
+      } else {
+        video.pause();
+      }
+    });
+  }, { threshold: 0 });
+
+  heroObserver.observe(hero);
+
   document.addEventListener("visibilitychange", () => {
-    parallaxActive = !document.hidden && !reducedMotion;
-    if (ambientTween) ambientTween.paused(document.hidden);
+    const isVisible = !document.hidden && hero.getBoundingClientRect().bottom > 0;
+    parallaxActive = isVisible && !reducedMotion;
+    
+    infiniteTweens.forEach(t => {
+      if (isVisible) t.play();
+      else t.pause();
+    });
+    
     if (!video) return;
-    if (document.hidden) {
+    if (document.hidden || !isVisible) {
       video.pause();
     } else if (played) {
       startVideo();
