@@ -25,36 +25,50 @@ function setupEventsCanvas() {
   }
 
   let isActive = false;
-  function checkActive() {
-    const rect = canvas.getBoundingClientRect();
-    isActive = rect.top < window.innerHeight && rect.bottom > 0;
-  }
-  
-  window.addEventListener("scroll", checkActive, { passive: true });
-  window.addEventListener("resize", () => { resize(); checkActive(); }, { passive: true });
-  checkActive();
+  let rafId = 0;
 
   function render(time) {
-    if (isActive) {
-      const t = time * 0.001;
-      ctx.clearRect(0, 0, state.width, state.height);
-
-      particles.forEach((particle) => {
-        const x = particle.x * state.width + Math.sin(t * particle.speed + particle.y * 8) * 28;
-        const y = ((particle.y * state.height + state.scroll * particle.speed * 0.12) % (state.height + 80)) - 40;
-        ctx.fillStyle = `rgba(10, 110, 211,${particle.alpha})`;
-        ctx.fillRect(x, y, particle.r, particle.r);
-      });
+    if (!isActive) {
+      rafId = 0;
+      return; // stop loop when off-screen
     }
+    const t = time * 0.001;
+    ctx.clearRect(0, 0, state.width, state.height);
 
-    requestAnimationFrame(render);
+    particles.forEach((particle) => {
+      const x = particle.x * state.width + Math.sin(t * particle.speed + particle.y * 8) * 28;
+      const y = ((particle.y * state.height + state.scroll * particle.speed * 0.12) % (state.height + 80)) - 40;
+      ctx.fillStyle = `rgba(10, 110, 211,${particle.alpha})`;
+      ctx.fillRect(x, y, particle.r, particle.r);
+    });
+
+    rafId = requestAnimationFrame(render);
   }
 
-  window.addEventListener("scroll", () => {
+  function startLoop() {
+    if (!rafId && isActive) {
+      rafId = requestAnimationFrame(render);
+    }
+  }
+
+  function checkActive() {
+    const rect = canvas.getBoundingClientRect();
+    const wasActive = isActive;
+    isActive = !document.hidden && rect.top < window.innerHeight && rect.bottom > 0;
+    if (isActive && !wasActive) startLoop();
+  }
+
+  window.addEventListener("scroll", (e) => {
     state.scroll = window.scrollY;
+    checkActive();
   }, { passive: true });
+
+  window.addEventListener("resize", () => { resize(); checkActive(); }, { passive: true });
+  document.addEventListener("visibilitychange", checkActive);
+
   resize();
-  requestAnimationFrame(render);
+  checkActive();
+  startLoop();
 }
 
 let isModalAnimating = false;
@@ -66,14 +80,44 @@ const eventData = [
     name: "IdeaForge",
     tagline: "Forge the future.",
     moduleName: "INNOVATION ARENA",
-    time: "11:30",
+    time: "11:30 AM",
+    venue: "Main Seminar Hall",
+    duration: "2 Hours",
     coordinators: ["Mustafa", "Ibrahim"],
-    description: "Showcase cutting-edge projects to industry experts and academia.",
-    rules: ["Hardware and software projects allowed.", "Presentations limited to 10 minutes."],
+    description: "Showcase cutting-edge hardware and software projects to a panel of industry experts and academic judges. IdeaForge challenges teams to present innovative, working solutions that address real-world problems — from prototypes to fully functional systems.",
+    rules: [
+      "Both hardware and software projects are permitted.",
+      "Each team gets a maximum of 10 minutes for presentation, followed by a 5-minute Q&A session.",
+      "Teams must bring their own working prototype or demonstrate a live software build.",
+      "Plagiarism or copying from existing open-source projects without significant modification is strictly prohibited.",
+      "Judges' evaluation and scoring are final and binding.",
+      "Teams must set up their projects within the designated time before presentations begin.",
+      "Use of offensive, discriminatory, or politically sensitive content in any project is not permitted.",
+      "Teams failing to report at the designated time will be disqualified."
+    ],
     minMembers: 4,
     maxMembers: 4,
     participantsText: "4 MEMBERS",
-    format: null
+    format: "PRESENTATION + Q&A",
+    rounds: [
+      { label: "SETUP PHASE", desc: "Teams set up demonstrations and displays at assigned stations." },
+      { label: "PRESENTATION ROUND", desc: "Each team presents their project to judges — 10 minutes strictly." },
+      { label: "Q&A SESSION", desc: "Judges probe deeper into innovation, technical depth, and feasibility." },
+      { label: "JUDGING & AWARDS", desc: "Scores are tallied and results are announced by the coordinators." }
+    ],
+    judging: [
+      { criterion: "Innovation & Originality", weightage: "30%" },
+      { criterion: "Technical Complexity", weightage: "25%" },
+      { criterion: "Presentation & Communication", weightage: "20%" },
+      { criterion: "Feasibility & Real-World Impact", weightage: "15%" },
+      { criterion: "Q&A Handling", weightage: "10%" }
+    ],
+    eligibility: [
+      "Open to all enrolled students of the college.",
+      "Team must consist of exactly 4 members.",
+      "Cross-department teams are allowed.",
+      "Each student can participate in only one team per event."
+    ]
   },
   {
     id: "tech-quiz",
@@ -81,14 +125,40 @@ const eventData = [
     name: "MindMatrix",
     tagline: "Where knowledge meets logic.",
     moduleName: "MINDMATRIX",
-    time: "11:30",
+    time: "11:30 AM",
+    venue: "Computer Lab — Block B",
+    duration: "90 Minutes",
     coordinators: ["Shreya", "Anshu"],
-    description: "Test your knowledge across multiple domains of computer science and technology.",
-    rules: ["No mobile devices allowed.", "Judges' decision is final."],
+    description: "Test your knowledge across multiple domains of computer science and technology in this fast-paced, multi-round quiz competition. MindMatrix rewards both depth of knowledge and quick thinking — covering topics from programming and networking to emerging technologies and general tech awareness.",
+    rules: [
+      "No mobile devices, smartwatches, or any external electronic devices are allowed inside the quiz hall.",
+      "Teams must arrive at least 10 minutes before the event begins.",
+      "Negative marking may apply in specific rounds — instructions will be given before each round.",
+      "Discussion between team members is permitted only during the allotted time in collaborative rounds.",
+      "Judges' and quizmaster's decisions are final and binding — no disputes will be entertained.",
+      "Any attempt to cheat, use unauthorized resources, or communicate with other teams will result in immediate disqualification.",
+      "Teams failing to answer within the time limit forfeit that question."
+    ],
     minMembers: 3,
     maxMembers: 3,
     participantsText: "3 MEMBERS",
-    format: "3 ROUNDS"
+    format: "3 ROUNDS",
+    rounds: [
+      { label: "ROUND 01 — RAPID FIRE", desc: "MCQ-based questions on CS fundamentals, networking, and general technology. 20 questions in 10 minutes." },
+      { label: "ROUND 02 — VISUAL ROUND", desc: "Identify technologies, logos, code snippets, and technical diagrams. Team deliberation allowed." },
+      { label: "ROUND 03 — FINALE BUZZER", desc: "High-stakes buzzer round. First correct answer wins points; wrong answers carry a penalty." }
+    ],
+    judging: [
+      { criterion: "Round 1 — Rapid Fire Score", weightage: "30%" },
+      { criterion: "Round 2 — Visual Round Score", weightage: "30%" },
+      { criterion: "Round 3 — Buzzer Finale Score", weightage: "40%" }
+    ],
+    eligibility: [
+      "Open to all enrolled students of the college.",
+      "Team must consist of exactly 3 members.",
+      "No cross-event participation for the same time slot.",
+      "Each student may participate in only one team."
+    ]
   },
   {
     id: "cyber-awareness",
@@ -96,14 +166,43 @@ const eventData = [
     name: "CyberCanvas",
     tagline: "Visualize. Secure. Inspire.",
     moduleName: "CYBERCANVAS",
-    time: "12:30",
+    time: "12:30 PM",
+    venue: "Exhibition Corridor — Ground Floor",
+    duration: "1.5 Hours",
     coordinators: ["Alefiya", "Zainab"],
-    description: "Present innovative posters focusing on cybersecurity awareness and defense mechanisms.",
-    rules: ["Follow presentation guidelines.", "Maintain cyber theme.", "Punctuality is strictly enforced."],
+    description: "Design and present a visually compelling poster that communicates cybersecurity awareness, defense mechanisms, or emerging cyber threats. CyberCanvas is where design meets security — teams must balance technical accuracy with creative visual storytelling.",
+    rules: [
+      "Posters must be physically printed and mounted — digital-only displays are not accepted.",
+      "Poster dimensions: A1 size (594mm × 841mm) — no larger, no smaller.",
+      "Content must strictly maintain a cybersecurity theme — off-topic submissions will be disqualified.",
+      "No offensive imagery, political content, or copyrighted material without proper attribution.",
+      "Teams must be present at their poster for the entire judging duration.",
+      "Punctuality is strictly enforced — late submissions or late arrivals will not be accepted.",
+      "Judges may ask questions about the poster's technical content.",
+      "Teams must not present another team's work — plagiarism results in immediate disqualification."
+    ],
     minMembers: 2,
     maxMembers: 4,
     participantsText: "2 IS MINIMUM AND 4 IS MAXIMUM",
-    format: null
+    format: "POSTER PRESENTATION",
+    rounds: [
+      { label: "SUBMISSION & DISPLAY SETUP", desc: "Teams mount and set up their A1 poster at the designated exhibition stand." },
+      { label: "JUDGING WALKTHROUGH", desc: "Judges visit each team's poster. Teams must present and explain their work within 5 minutes." },
+      { label: "RESULTS ANNOUNCEMENT", desc: "Winners announced after all teams are evaluated." }
+    ],
+    judging: [
+      { criterion: "Visual Design & Creativity", weightage: "25%" },
+      { criterion: "Technical Content & Accuracy", weightage: "30%" },
+      { criterion: "Cyber Theme Relevance", weightage: "20%" },
+      { criterion: "Clarity & Communication", weightage: "15%" },
+      { criterion: "Q&A Response", weightage: "10%" }
+    ],
+    eligibility: [
+      "Open to all enrolled students.",
+      "Team size: minimum 2, maximum 4 members.",
+      "Inter-department teams are allowed.",
+      "Each student may be part of only one team for this event."
+    ]
   },
   {
     id: "code-hunt",
@@ -111,24 +210,43 @@ const eventData = [
     name: "Codebreak",
     tagline: "Crack it. Solve it. Conquer it.",
     moduleName: "CODE RUSH",
-    time: "12:30",
+    time: "12:30 PM",
+    venue: "Programming Lab — Block C",
+    duration: "2 Hours",
     coordinators: ["Shabbir", "Rehan"],
-    description: "Navigate algorithmic challenges in this intense competitive programming environment.",
+    description: "An intense individual competitive programming challenge where you navigate a series of algorithmic modules. Each solved problem outputs a clue that leads to the next module — speed and accuracy both matter. Only the sharpest coders finish the trail.",
     rules: [
-      "Teams must follow the assigned starting module.",
-      "Teams must visit only the module specified by the previous program's output.",
-      "Teams must not access another team's code, computer, solution, or clues.",
-      "Sharing answers or solutions between teams is prohibited.",
-      "Tampering with the website, competition system, database, or other technical infrastructure is strictly prohibited.",
-      "Unauthorized external assistance, including AI tools or direct solution searching, is not allowed unless explicitly permitted by the organizers.",
-      "Teams must report technical issues immediately to the event coordinator.",
-      "Any form of cheating, misconduct, or unfair practice may result in disqualification.",
-      "Participants must maintain discipline and respect other teams, organizers, and volunteers."
+      "This is an INDIVIDUAL event — no team participation allowed.",
+      "Participants must follow the assigned starting module strictly.",
+      "Each module's program output specifies the next module to visit — do not skip or reorder.",
+      "Accessing another participant's code, computer, solution, or clues is strictly prohibited.",
+      "Sharing answers or solutions between participants is prohibited.",
+      "Tampering with the website, competition system, database, or any technical infrastructure is strictly prohibited and will result in permanent disqualification.",
+      "Unauthorized external assistance, including AI tools, direct solution searching, or pre-written code libraries beyond standard I/O, is not allowed.",
+      "Participants must immediately report any technical issues to the event coordinator.",
+      "Any form of cheating, misconduct, or unfair practice results in disqualification.",
+      "Participants must maintain discipline and respect fellow participants, organizers, and volunteers."
     ],
     minMembers: 1,
     maxMembers: 1,
     participantsText: "INDIVIDUAL",
-    format: null
+    format: "MULTI-MODULE TRAIL",
+    rounds: [
+      { label: "MODULE ASSIGNMENT", desc: "Each participant is assigned a unique starting programming module at the beginning." },
+      { label: "CODE TRAIL", desc: "Solve each module's challenge — the output reveals your next destination module. Race through all modules." },
+      { label: "FINAL SUBMISSION", desc: "First participant to correctly complete all modules and submit the final answer wins." }
+    ],
+    judging: [
+      { criterion: "Speed (First to Complete)", weightage: "50%" },
+      { criterion: "Code Correctness & Logic", weightage: "30%" },
+      { criterion: "Number of Modules Completed", weightage: "20%" }
+    ],
+    eligibility: [
+      "Individual participation only — no teams.",
+      "Open to all enrolled students of the college.",
+      "Basic programming knowledge in at least one language (C, C++, Python, Java) is expected.",
+      "Participants must bring their own college ID."
+    ]
   },
   {
     id: "techhunt",
@@ -136,14 +254,42 @@ const eventData = [
     name: "TechTrail",
     tagline: "Follow the clues. Find the tech.",
     moduleName: "TECH QUEST",
-    time: "2:00",
+    time: "2:00 PM",
+    venue: "Campus-Wide",
+    duration: "1.5 Hours",
     coordinators: ["Munira", "Tasneem"],
-    description: "A campus-wide technical treasure hunt solving riddles and tracing data breadcrumbs.",
-    rules: ["Teams must stay together.", "No property damage allowed."],
+    description: "A campus-wide technical treasure hunt where teams solve technical riddles, decode data breadcrumbs, and race to checkpoints hidden across the college. TechTrail tests your tech knowledge, teamwork, and problem-solving speed simultaneously.",
+    rules: [
+      "Teams must stay together at all times — splitting up is not permitted.",
+      "All campus property must be respected — damage to property will result in immediate disqualification.",
+      "Clues must only be found through the official designated channels — no asking staff or outsiders.",
+      "Teams must not interfere with other teams' progress or steal clues.",
+      "Use of mobile internet to search for answers is not allowed unless explicitly permitted.",
+      "Teams must check in at each checkpoint with the designated marshal.",
+      "Any form of cheating or rule violation results in immediate disqualification.",
+      "The team that completes all checkpoints with the highest accuracy in the least time wins."
+    ],
     minMembers: 3,
     maxMembers: 5,
     participantsText: "3 IS MINIMUM AND 5 IS MAXIMUM",
-    format: null
+    format: "MULTI-CHECKPOINT HUNT",
+    rounds: [
+      { label: "BRIEFING & CLUE 01", desc: "Teams receive their first clue and starting instructions from the organizers." },
+      { label: "CHECKPOINT TRAIL", desc: "Solve riddles and navigate to each checkpoint spread across campus. Each checkpoint reveals the next." },
+      { label: "FINAL CHECKPOINT", desc: "A final technical challenge must be solved at the last checkpoint before declaring completion." },
+      { label: "RESULTS", desc: "Winner determined by time taken and number of checkpoints correctly cleared." }
+    ],
+    judging: [
+      { criterion: "Total Time to Completion", weightage: "50%" },
+      { criterion: "Checkpoints Correctly Cleared", weightage: "30%" },
+      { criterion: "Final Challenge Accuracy", weightage: "20%" }
+    ],
+    eligibility: [
+      "Open to all enrolled students.",
+      "Team size: minimum 3, maximum 5 members.",
+      "Cross-department teams are allowed.",
+      "Each student may participate in only one team."
+    ]
   },
   {
     id: "freefire",
@@ -151,19 +297,43 @@ const eventData = [
     name: "Final Strike",
     tagline: "Only one team stands.",
     moduleName: "GAME ARENA",
-    time: "3:00",
+    time: "3:00 PM",
+    venue: "Gaming Zone — Block D",
+    duration: "Approx. 2 Hours",
     coordinators: ["Meet", "Rohit"],
-    description: "Tactical squad-based battle royale esports championship.",
+    description: "The ultimate tactical squad-based battle royale esports championship. Squads of 4 compete in Free Fire matches to claim dominance and the championship title. Strategy, teamwork, and execution under pressure define the winner.",
     rules: [
-      "Mobile Only: PC and Emulator players are not allowed.",
-      "No Teaming: Teaming up with enemy squads is strictly banned. Both teams will be disqualified.",
-      "Zero Tolerance for Hacks: Using any scripts, hacks, or map glitches will result in a permanent ban from the tournament.",
-      "No Toxicity: Respect all players. No abusive language."
+      "MOBILE ONLY — PC emulator players are strictly not allowed. Device checks will be performed before matches.",
+      "NO TEAMING — Forming alliances with enemy squads is banned. Both squads involved will be permanently disqualified from the tournament.",
+      "ZERO TOLERANCE FOR HACKS — Any script, hack, cheat engine, or map glitch exploitation results in a permanent ban from the tournament.",
+      "NO TOXICITY — Abusive language, harassment, or disrespectful behaviour towards any player, organizer, or volunteer will result in disqualification.",
+      "Players must join the room with the correct IGN registered during sign-up. Impersonation will result in disqualification.",
+      "All match results are recorded and final. Disputes must be raised within 2 minutes of match end — no late disputes accepted.",
+      "Device battery issues or connectivity problems are the team's responsibility — no re-matches granted.",
+      "Organizers' decisions on all matters during the tournament are final and binding."
     ],
     minMembers: 4,
     maxMembers: 4,
     participantsText: "4 MEMBERS",
-    format: null
+    format: "SQUAD BATTLE ROYALE",
+    rounds: [
+      { label: "REGISTRATION VERIFICATION", desc: "All player IGNs and UIDs verified against registration data. Non-matching players are removed." },
+      { label: "WARM-UP LOBBY", desc: "Teams join the practice lobby to familiarise with room settings and confirm device readiness." },
+      { label: "LEAGUE MATCHES", desc: "Multiple battle royale matches played. Points awarded per kill and placement ranking." },
+      { label: "GRAND FINALE", desc: "Top qualifying squads enter the championship final match. Winner takes all." }
+    ],
+    judging: [
+      { criterion: "Placement Points (Survival)", weightage: "50%" },
+      { criterion: "Kill Points", weightage: "35%" },
+      { criterion: "Bonus Objective Points", weightage: "15%" }
+    ],
+    eligibility: [
+      "Team must consist of exactly 4 players.",
+      "Open to all enrolled students of the college.",
+      "Players must use their own mobile device — sharing devices is not allowed.",
+      "All players must register their in-game name (IGN) and UID during sign-up.",
+      "A valid college ID must be presented before match entry."
+    ]
   },
   {
     id: "trust-partner",
@@ -171,14 +341,42 @@ const eventData = [
     name: "Blind Sync",
     tagline: "Trust. Communicate. Execute.",
     moduleName: "TRUST WALK",
-    time: "3:00",
+    time: "3:00 PM",
+    venue: "Open Courtyard — Ground Floor",
+    duration: "45 Minutes",
     coordinators: ["Patel Mihir", "Ronaldo"],
-    description: "Navigate a technical obstacle course relying completely on partner communications.",
-    rules: ["Blindfolds must remain on.", "Only the navigator may speak."],
+    description: "Navigate a technical obstacle course while completely blindfolded, guided only by your partner's voice commands. Blind Sync is the ultimate test of trust, communication clarity, and teamwork under pressure — one wrong instruction and everything falls apart.",
+    rules: [
+      "Blindfolds must remain on the participant at all times during the course — removal results in immediate disqualification.",
+      "Only the navigator (non-blindfolded partner) may speak during the challenge. The blindfolded participant may only respond and act.",
+      "Physical contact from the navigator is strictly not permitted — guidance must be voice-only.",
+      "Teams must complete the obstacle course without knocking over more than 3 obstacles to qualify for scoring.",
+      "Teams will be assigned their start time — late teams forfeit their run.",
+      "Observers must maintain silence during an active team's run.",
+      "The fastest clean completion with fewest errors wins.",
+      "Organizers' decisions on penalties and timing are final."
+    ],
     minMembers: 2,
     maxMembers: 2,
     participantsText: "2 MEMBERS",
-    format: null
+    format: "TIMED OBSTACLE COURSE",
+    rounds: [
+      { label: "BRIEFING & ROLE ASSIGNMENT", desc: "Each pair is briefed on the course layout. Roles (blindfolded vs. navigator) are decided before the run." },
+      { label: "TIMED OBSTACLE RUN", desc: "The blindfolded participant navigates the full obstacle course guided exclusively by their partner's voice." },
+      { label: "SCORING & LEADERBOARD", desc: "Time taken and number of obstacles hit are recorded. Leaderboard updated after each run." },
+      { label: "FINALS", desc: "Top teams compete in the final round on a more complex course variation." }
+    ],
+    judging: [
+      { criterion: "Course Completion Time", weightage: "50%" },
+      { criterion: "Obstacles Avoided", weightage: "30%" },
+      { criterion: "Communication Efficiency", weightage: "20%" }
+    ],
+    eligibility: [
+      "Team must consist of exactly 2 members.",
+      "Open to all enrolled students of the college.",
+      "Participants with any physical conditions that may be affected by blindfolding should inform coordinators in advance.",
+      "Each student may participate in only one pair for this event."
+    ]
   }
 ];
 
@@ -231,19 +429,24 @@ function openEventDetails(eventId, clickedModule) {
   const event = eventData.find(e => e.id === eventId);
   if (!event) return;
 
-  // Populate Details Data
+  // --- Core fields ---
   document.getElementById("detail-event-number").textContent = `EVENT // ${event.eventNumber}`;
   document.getElementById("detail-event-name").textContent = event.name;
   document.getElementById("detail-tagline").textContent = event.tagline || "";
   document.getElementById("detail-module-name").textContent = `CATEGORY // ${event.moduleName || "EVENT MODULE"}`;
   document.getElementById("detail-description").textContent = event.description;
 
+  // --- Rules ---
   const rulesList = document.getElementById("detail-rules-list");
   rulesList.innerHTML = event.rules.map((rule, index) => `<li><span>${String(index + 1).padStart(2, "0")}</span><p>${escapeHTML(rule)}</p></li>`).join('');
 
+  // --- Sidebar: Time ---
   document.getElementById("detail-time").textContent = event.time;
+
+  // --- Sidebar: Team Size ---
   document.getElementById("detail-team-size").textContent = event.participantsText;
 
+  // --- Sidebar: Format ---
   if (event.format) {
     document.getElementById("detail-format").textContent = event.format;
     document.getElementById("format-block").style.display = "block";
@@ -251,11 +454,68 @@ function openEventDetails(eventId, clickedModule) {
     document.getElementById("format-block").style.display = "none";
   }
 
+  // --- Sidebar: Venue ---
+  if (event.venue) {
+    document.getElementById("detail-venue").textContent = event.venue;
+    document.getElementById("venue-block").style.display = "block";
+  } else {
+    document.getElementById("venue-block").style.display = "none";
+  }
+
+  // --- Sidebar: Duration ---
+  if (event.duration) {
+    document.getElementById("detail-duration").textContent = event.duration;
+    document.getElementById("duration-block").style.display = "block";
+  } else {
+    document.getElementById("duration-block").style.display = "none";
+  }
+
+  // --- Coordinators ---
   const coordsList = document.getElementById("detail-coordinators-list");
   coordsList.innerHTML = event.coordinators.map(coord => `<li>${escapeHTML(coord)}</li>`).join('');
 
+  // --- Rounds / Format Section ---
+  const roundsSection = document.getElementById("detail-rounds-section");
+  const roundsContent = document.getElementById("detail-rounds-content");
+  if (event.rounds && event.rounds.length) {
+    roundsContent.innerHTML = event.rounds.map((r, i) => `
+      <div class="round-item">
+        <div class="round-step">${String(i + 1).padStart(2, "0")}</div>
+        <div class="round-body">
+          <dt>${escapeHTML(r.label)}</dt>
+          <dd>${escapeHTML(r.desc)}</dd>
+        </div>
+      </div>`).join('');
+    roundsSection.style.display = "block";
+  } else {
+    roundsSection.style.display = "none";
+  }
 
+  // --- Judging Criteria Section ---
+  const judgingSection = document.getElementById("detail-judging-section");
+  const judgingBody = document.getElementById("detail-judging-body");
+  if (event.judging && event.judging.length) {
+    judgingBody.innerHTML = event.judging.map(j => `
+      <tr>
+        <td>${escapeHTML(j.criterion)}</td>
+        <td class="weightage-cell">${escapeHTML(j.weightage)}</td>
+      </tr>`).join('');
+    judgingSection.style.display = "block";
+  } else {
+    judgingSection.style.display = "none";
+  }
 
+  // --- Eligibility & Notes Section ---
+  const notesSection = document.getElementById("detail-notes-section");
+  const notesList = document.getElementById("detail-notes-list");
+  if (event.eligibility && event.eligibility.length) {
+    notesList.innerHTML = event.eligibility.map(note => `<li>${escapeHTML(note)}</li>`).join('');
+    notesSection.style.display = "block";
+  } else {
+    notesSection.style.display = "none";
+  }
+
+  // --- Register Button ---
   const registerBtn = document.getElementById("detail-register-btn");
   registerBtn.setAttribute("data-event-id", event.id);
   registerBtn.href = "#";
@@ -331,6 +591,7 @@ function openEventDetails(eventId, clickedModule) {
   tl.fromTo(".info-section", { x: 20, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, stagger: 0.1, ease: "power2.out" }, 1.4);
   tl.fromTo(".cta-container", { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.5)" }, 1.5);
 }
+
 
 function closeEventDetails() {
   if (isModalAnimating) return;

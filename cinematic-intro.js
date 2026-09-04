@@ -74,6 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cy = state.height * 0.49;
     ctx.clearRect(0, 0, state.width, state.height);
 
+    // --- Pass 1: dim (non-bright) particles — no shadow, fast ---
     particles.forEach((particle, index) => {
       const centerPull = state.pull * (0.006 + particle.speed);
       particle.x += -particle.x * centerPull;
@@ -91,19 +92,30 @@ document.addEventListener("DOMContentLoaded", () => {
       const depth = Math.max(0.12, particle.z);
       const spread = Math.min(state.width, state.height) * (0.48 + state.rush * 0.24);
       const orbit = Math.sin(t * 0.72 + index) * 0.018 * state.glow;
-      const px = cx + ((particle.x + orbit) * spread) / depth;
-      const py = cy + ((particle.y - orbit) * spread) / depth;
-      const alpha = particle.alpha * (0.25 + state.pull * 0.5 + state.glow * 0.55) * (particle.bright ? 1.35 : 1);
-      const length = 1 + state.rush * 20;
+      particle._px = cx + ((particle.x + orbit) * spread) / depth;
+      particle._py = cy + ((particle.y - orbit) * spread) / depth;
+      particle._alpha = particle.alpha * (0.25 + state.pull * 0.5 + state.glow * 0.55) * (particle.bright ? 1.35 : 1);
+      particle._len = 1 + state.rush * 20;
 
-      ctx.beginPath();
-      ctx.fillStyle = particle.bright ? `rgba(234,247,255,${alpha})` : `rgba(10, 110, 211,${alpha})`;
-      ctx.shadowColor = particle.bright ? "rgba(234,247,255,0.86)" : "rgba(10, 110, 211,0.78)";
-      ctx.shadowBlur = particle.bright ? 12 * state.glow : 7 * state.glow;
-      ctx.fillRect(px, py, particle.size + length, particle.size);
-      ctx.shadowBlur = 0;
+      if (!particle.bright) {
+        ctx.fillStyle = `rgba(10, 110, 211,${particle._alpha})`;
+        ctx.fillRect(particle._px, particle._py, particle.size + particle._len, particle.size);
+      }
     });
 
+    // --- Pass 2: bright particles — one shared shadow state ---
+    if (state.glow > 0.04) {
+      ctx.shadowColor = "rgba(234,247,255,0.86)";
+      ctx.shadowBlur = 12 * state.glow;
+      particles.forEach((particle) => {
+        if (!particle.bright) return;
+        ctx.fillStyle = `rgba(234,247,255,${particle._alpha})`;
+        ctx.fillRect(particle._px, particle._py, particle.size + particle._len, particle.size);
+      });
+      ctx.shadowBlur = 0;
+    }
+
+    // --- Pass 3: orbital ring lines ---
     if (state.glow > 0.08) {
       ctx.beginPath();
       ctx.strokeStyle = `rgba(10, 110, 211,${0.12 * state.glow})`;

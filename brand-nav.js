@@ -80,7 +80,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  window.addEventListener("scroll", setActiveNav, { passive: true });
+  let scrollRafPending = false;
+  function onScroll() {
+    if (scrollRafPending) return;
+    scrollRafPending = true;
+    requestAnimationFrame(() => {
+      scrollRafPending = false;
+      setActiveNav();
+    });
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("technot:intro-complete", () => root.classList.add("brand-nav-ready"), { once: true });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeMenu();

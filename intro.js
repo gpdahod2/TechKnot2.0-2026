@@ -115,11 +115,8 @@ function setupCanvasSpace() {
     const p = project({ x: ax, y: ay, z: az });
     ctx.beginPath();
     ctx.fillStyle = `rgba(234,247,255,${alpha})`;
-    ctx.shadowColor = "rgba(10, 110, 211,0.9)";
-    ctx.shadowBlur = 12;
     ctx.arc(p.x, p.y, Math.max(0.8, 3.8 / p.depth), 0, Math.PI * 2);
     ctx.fill();
-    ctx.shadowBlur = 0;
   }
 
   function render(time) {
@@ -158,27 +155,34 @@ function setupCanvasSpace() {
         ctx.stroke();
       }
 
+      // Batch all node glows under a single shadow state
+      ctx.shadowColor = "rgba(10, 110, 211,0.78)";
       nodes.forEach((node, index) => {
         const p = project(node);
         const pulse = 0.62 + Math.sin(t * 2.2 + node.phase) * 0.28;
         ctx.beginPath();
         ctx.fillStyle = `rgba(10, 110, 211,${networkAlpha * (0.38 + pulse * 0.34)})`;
-        ctx.shadowColor = "rgba(10, 110, 211,0.78)";
         ctx.shadowBlur = 10 * networkAlpha;
         ctx.arc(p.x, p.y, node.r * (1.5 / p.depth), 0, Math.PI * 2);
         ctx.fill();
-        ctx.shadowBlur = 0;
 
         if (index % 3 === 0) {
           drawPacket(node, nodes[(index + 5) % nodes.length], (t * 0.16 + index * 0.13) % 1, networkAlpha * 0.72);
         }
       });
+      ctx.shadowBlur = 0;
     }
 
     requestAnimationFrame(render);
   }
 
+  function cleanup() {
+    state.running = false;
+    window.removeEventListener("resize", resize);
+  }
+
   window.addEventListener("resize", resize);
+  window.addEventListener("technot:intro-complete", cleanup, { once: true });
   resize();
   requestAnimationFrame(render);
   return state;
@@ -346,7 +350,14 @@ function setupThreeSpace() {
     requestAnimationFrame(render);
   }
 
+  function cleanup() {
+    state.running = false;
+    window.removeEventListener("resize", resize);
+    renderer.dispose();
+  }
+
   window.addEventListener("resize", resize);
+  window.addEventListener("technot:intro-complete", cleanup, { once: true });
   requestAnimationFrame(render);
   return state;
 }

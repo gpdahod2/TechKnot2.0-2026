@@ -89,6 +89,7 @@
   opacity: 1;
   transform-origin: center;
   will-change: transform, opacity, filter;
+  contain: layout style;
 }
 
 .cinematic-logo-wrapper {

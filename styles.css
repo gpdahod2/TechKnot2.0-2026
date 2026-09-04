@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   color-scheme: dark;
   --black: #000919;
   --deep-blue: #001D3F;
@@ -672,6 +672,7 @@ html.intro-complete .space-canvas {
   mask-image: radial-gradient(ellipse at 52% 48%, black 0 42%, rgba(0, 0, 0, 0.82) 55%, transparent 78%);
   -webkit-mask-image: radial-gradient(ellipse at 52% 48%, black 0 42%, rgba(0, 0, 0, 0.82) 55%, transparent 78%);
   will-change: transform, opacity;
+  contain: layout style;
 }
 
 .hero-video-stage::before {
@@ -1286,6 +1287,7 @@ html.intro-complete .events-section {
 .events-canvas {
   z-index: 1;
   opacity: 0.7;
+  contain: strict;
 }
 
 .corridor {
@@ -1753,6 +1755,7 @@ html.intro-complete .events-section {
   padding: max(34px, env(safe-area-inset-top)) 6vw 8vh;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   opacity: 0;
+  overscroll-behavior: contain;
 }
 
 .details-network-bg {
@@ -2226,7 +2229,148 @@ html.intro-complete .events-section {
   }
 }
 
-/* --- REGISTRATION OVERLAY --- */
+/* --- ROUNDS / FORMAT CARDS --- */
+.rounds-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.round-item {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid rgba(10, 110, 211, 0.14);
+  background: linear-gradient(90deg, rgba(5, 78, 152, 0.09), rgba(10, 110, 211, 0.025));
+  position: relative;
+}
+
+.round-item::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  width: 16px;
+  height: 16px;
+  border-top: 1px solid rgba(10, 110, 211, 0.5);
+  border-left: 1px solid rgba(10, 110, 211, 0.5);
+}
+
+.round-step {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #0A6ED3;
+  background: rgba(10, 110, 211, 0.08);
+  border: 1px solid rgba(10, 110, 211, 0.2);
+  min-height: 44px;
+}
+
+.round-body {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.round-body dt {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: #0A6ED3;
+  text-transform: uppercase;
+}
+
+.round-body dd {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: rgba(234, 247, 255, 0.75);
+}
+
+/* --- JUDGING TABLE --- */
+.judging-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.92rem;
+}
+
+.judging-table thead tr {
+  border-bottom: 1px solid rgba(10, 110, 211, 0.3);
+}
+
+.judging-table th {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  color: rgba(96, 112, 134, 0.9);
+  text-transform: uppercase;
+}
+
+.judging-table th:last-child {
+  text-align: right;
+}
+
+.judging-table tbody tr {
+  border-bottom: 1px solid rgba(10, 110, 211, 0.07);
+  transition: background 0.2s ease;
+}
+
+.judging-table tbody tr:hover {
+  background: rgba(10, 110, 211, 0.07);
+}
+
+.judging-table td {
+  padding: 12px 14px;
+  color: rgba(234, 247, 255, 0.8);
+  line-height: 1.45;
+}
+
+.judging-table .weightage-cell {
+  text-align: right;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.9rem;
+  color: #0A6ED3;
+  white-space: nowrap;
+}
+
+/* --- ELIGIBILITY / NOTES LIST --- */
+.notes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notes-list li {
+  position: relative;
+  padding: 12px 14px 12px 36px;
+  border: 1px solid rgba(10, 110, 211, 0.12);
+  background: rgba(5, 78, 152, 0.05);
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: rgba(234, 247, 255, 0.75);
+}
+
+.notes-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  color: #0A6ED3;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+
 .registration-overlay {
   position: fixed;
   inset: 0;
@@ -2239,6 +2383,7 @@ html.intro-complete .events-section {
   padding: 8vh 6vw;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   opacity: 0;
+  overscroll-behavior: contain;
 }
 
 .registration-network-bg {
