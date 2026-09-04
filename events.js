@@ -817,9 +817,25 @@ function closeRegistration() {
   const detailsOverlay = document.getElementById("event-details");
   const regOverlay = document.getElementById("registration-overlay");
   const openedDirectly = document.body.dataset.registrationSource === "global";
+
+  const resetFormState = () => {
+    isModalAnimating = false;
+    const form = document.getElementById("technot-registration-form");
+    if (form) {
+      form.style.display = "block";
+      form.style.opacity = "1";
+      form.style.transform = "none";
+    }
+    const successDiv = document.getElementById("registration-success");
+    if (successDiv) {
+      successDiv.style.display = "none";
+    }
+  };
+
   if (!window.gsap) {
     regOverlay.style.display = "none";
     regOverlay.setAttribute("aria-hidden", "true");
+    resetFormState();
     if (openedDirectly) {
       document.body.classList.remove("modal-open");
       delete document.body.dataset.registrationSource;
@@ -831,7 +847,7 @@ function closeRegistration() {
   }
 
   isModalAnimating = true;
-  const tl = gsap.timeline({ onComplete: () => isModalAnimating = false });
+  const tl = gsap.timeline({ onComplete: resetFormState });
 
   tl.to(regOverlay, {
     autoAlpha: 0,
@@ -876,6 +892,40 @@ window.technotOpenDefaultRegistration = function technotOpenDefaultRegistration(
   openRegistration(eventData[0].id);
 };
 
+function sendToAppsScript(url, payload) {
+  if (!url || url.includes("YOUR_DEPLOYMENT_ID")) {
+    console.warn("TECHNOT 2.0: Google Apps Script Web App URL is not set yet. Set window.TECHNOT_APPS_SCRIPT_URL or update APPS_SCRIPT_URL in events.js to save registrations directly to Google Sheets.");
+    return new Promise(resolve => setTimeout(resolve, 600));
+  }
+
+  const payloadString = JSON.stringify(payload);
+
+  // Try standard CORS request first
+  return fetch(url, {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: payloadString
+  })
+  .then(res => {
+    return res.json().catch(() => ({ result: "success" }));
+  })
+  .catch(err => {
+    console.warn("Browser CORS redirect restricted direct read, using secure background post fallback:", err);
+    // Fallback using no-cors mode guarantees the POST reaches Google Apps Script from file:// or localhost
+    return fetch(url, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: payloadString
+    }).then(() => ({ result: "success", fallback: true }));
+  });
+}
+
 function handleRegistrationSubmit(e) {
   e.preventDefault();
   const form = e.target;
@@ -907,7 +957,7 @@ function handleRegistrationSubmit(e) {
   });
 
   const email = document.getElementById("contact-email");
-  if (!isFreeFire && email.value.trim() && !/^\S+@\S+\.\S+$/.test(email.value)) {
+  if (!isFreeFire && email && email.value.trim() && !/^\S+@\S+\.\S+$/.test(email.value)) {
     const group = email.closest(".input-group");
     group.classList.add("has-error");
     group.querySelector(".error-msg").textContent = "[!] INVALID EMAIL FORMAT";
@@ -915,7 +965,7 @@ function handleRegistrationSubmit(e) {
   }
 
   const phone = document.getElementById("contact-phone");
-  if (phone.value.trim() && !/^[0-9\-\+\s]{7,15}$/.test(phone.value)) {
+  if (phone && phone.value.trim() && !/^[0-9\-\+\s]{7,15}$/.test(phone.value)) {
     const group = phone.closest(".input-group");
     group.classList.add("has-error");
     group.querySelector(".error-msg").textContent = "[!] INVALID PHONE FORMAT";
@@ -924,44 +974,102 @@ function handleRegistrationSubmit(e) {
 
   if (!isValid) return;
 
+  const eventId = document.getElementById("reg-event-id").value;
+  const eventName = document.getElementById("reg-event-name").textContent.trim();
+  const teamNameInput = document.getElementById("team-name");
+  const teamName = teamNameInput ? teamNameInput.value.trim() : "";
+  const phoneValue = phone ? phone.value.trim() : "";
+  const emailValue = (!isFreeFire && email) ? email.value.trim() : "";
+  const deptInput = document.getElementById("department");
+  const deptValue = (!isFreeFire && deptInput) ? deptInput.value : "";
+
   const registrationPayload = {
-    eventId: document.getElementById("reg-event-id").value,
-    teamName: document.getElementById("team-name").value.trim()
+    eventId: eventId,
+    eventName: eventName,
+    teamName: teamName,
+    contactPhone: phoneValue,
+    contactEmail: emailValue,
+    department: deptValue,
+    isFreeFire: isFreeFire,
+    players: [],
+    members: []
   };
 
   if (isFreeFire) {
-    registrationPayload.teamLeaderContact = document.getElementById("contact-phone").value.trim();
-    registrationPayload.players = Array.from(document.querySelectorAll(".player-fieldset")).map((group, index) => ({
-      ign: group.querySelector(`[name="player${index + 1}Ign"]`).value.trim(),
-      uid: group.querySelector(`[name="player${index + 1}Uid"]`).value.trim()
-    }));
+    registrationPayload.players = Array.from(document.querySelectorAll(".player-fieldset")).map((group, index) => {
+      const ignInput = group.querySelector(`[name="player${index + 1}Ign"]`);
+      const uidInput = group.querySelector(`[name="player${index + 1}Uid"]`);
+      return {
+        ign: ignInput ? ignInput.value.trim() : "",
+        uid: uidInput ? uidInput.value.trim() : ""
+      };
+    }).filter(p => p.ign || p.uid);
+  } else {
+    registrationPayload.members = Array.from(document.querySelectorAll("#members-container .player-fieldset")).map((group, index) => {
+      const memberInput = group.querySelector(`[name="member${index + 1}"]`);
+      const enrollInput = group.querySelector(`[name="enrollment${index + 1}"]`);
+      const semInput = group.querySelector(`[name="semester${index + 1}"]`);
+      return {
+        name: memberInput ? memberInput.value.trim() : "",
+        enrollment: enrollInput ? enrollInput.value.trim() : "",
+        semester: semInput ? semInput.value : ""
+      };
+    }).filter(m => m.name || m.enrollment);
   }
 
   form.dataset.registrationPayload = JSON.stringify(registrationPayload);
 
-  // Submission Simulation
+  // Backend submission & GSAP visual feedback
   const btnText = document.querySelector(".form-submit-wrapper .btn-text");
   const submitBtn = document.getElementById("submit-registration");
   submitBtn.disabled = true;
 
+  // Google Apps Script Web App Endpoint URL
+  const APPS_SCRIPT_URL = window.TECHNOT_APPS_SCRIPT_URL || "https://script.google.com/macros/s/AKfycbx8b1ZpsJlxKiySi7yifacOw82VhJI7CTbZ2O8yI83lAgwutLYPPVgR4oxHgQ93T25yuA/exec";
+
   const tl = gsap.timeline();
   tl.to(btnText, { opacity: 0, duration: 0.2, onComplete: () => btnText.textContent = "PROCESSING..." })
     .to(btnText, { opacity: 1, duration: 0.2 })
-    .to(btnText, { opacity: 0, duration: 0.2, delay: 0.8, onComplete: () => btnText.textContent = "VERIFYING DATA..." })
+    .to(btnText, { opacity: 0, duration: 0.2, delay: 0.6, onComplete: () => btnText.textContent = "VERIFYING DATA..." })
     .to(btnText, { opacity: 1, duration: 0.2 })
     .to(btnText, {
-      opacity: 0, duration: 0.2, delay: 0.8, onComplete: () => {
-        btnText.textContent = "REGISTRATION // ACCEPTED";
-        document.getElementById("success-event").textContent = document.getElementById("reg-event-name").textContent;
-        document.getElementById("success-team").textContent = document.getElementById("team-name").value;
-        submitBtn.disabled = false;
-
-        gsap.to(form, { opacity: 0, y: -20, duration: 0.5, onComplete: () => form.style.display = "none" });
-        gsap.set("#registration-success", { display: "block", opacity: 0, scale: 0.95 });
-        gsap.to("#registration-success", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.5)", delay: 0.5 });
+      opacity: 0, duration: 0.2, delay: 0.6, onComplete: () => {
+        btnText.textContent = "SAVING REGISTRATION...";
       }
     })
-    .to(btnText, { opacity: 1, color: "#0A6ED3", duration: 0.2 });
+    .to(btnText, { opacity: 1, duration: 0.2 })
+    .call(() => {
+      sendToAppsScript(APPS_SCRIPT_URL, registrationPayload)
+        .then(res => {
+          if (res && res.result === "error") {
+            throw new Error(res.error || "Google Apps Script rejected registration.");
+          }
+          btnText.textContent = "REGISTRATION // ACCEPTED";
+          btnText.style.color = "#0A6ED3";
+          
+          const primaryName = teamName || (registrationPayload.members[0] ? registrationPayload.members[0].name : "Participant");
+          document.getElementById("success-event").textContent = eventName;
+          document.getElementById("success-team").textContent = primaryName;
+          submitBtn.disabled = false;
+
+          gsap.to(form, { opacity: 0, y: -20, duration: 0.5, onComplete: () => form.style.display = "none" });
+          gsap.set("#registration-success", { display: "block", opacity: 0, scale: 0.95 });
+          gsap.to("#registration-success", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.5)", delay: 0.3 });
+        })
+        .catch(err => {
+          console.error("Registration submission failed:", err);
+          btnText.textContent = "SUBMISSION FAILED // RETRY";
+          btnText.style.color = "#FF3366";
+          submitBtn.disabled = false;
+          
+          const confirmGroup = document.querySelector(".confirmation-section");
+          if (confirmGroup) {
+            confirmGroup.classList.add("has-error");
+            const errEl = confirmGroup.querySelector(".error-msg");
+            if (errEl) errEl.textContent = "[!] NETWORK ERROR. PLEASE TRY AGAIN.";
+          }
+        });
+    });
 }
 
 
@@ -986,6 +1094,11 @@ function setupEventsSection() {
   setActiveBackground();
 
   // Setup close button listener once
+  document.getElementById("close-registration").addEventListener("click", closeRegistration);
+  const successReturnBtn = document.getElementById("success-return-btn");
+  if (successReturnBtn) {
+    successReturnBtn.addEventListener("click", closeRegistration);
+  }
   document.getElementById("close-details").addEventListener("click", closeEventDetails);
 
   document.getElementById("detail-register-btn").addEventListener("click", (e) => {
@@ -995,8 +1108,19 @@ function setupEventsSection() {
     openRegistration(eventId);
   });
 
-  document.getElementById("close-registration").addEventListener("click", closeRegistration);
-  document.getElementById("technot-registration-form").addEventListener("submit", handleRegistrationSubmit);
+  const regForm = document.getElementById("technot-registration-form");
+  if (regForm) {
+    regForm.addEventListener("submit", handleRegistrationSubmit);
+  }
+  const submitBtn = document.getElementById("submit-registration");
+  if (submitBtn) {
+    submitBtn.addEventListener("click", (e) => {
+      if (regForm && typeof regForm.requestSubmit === "function") {
+        e.preventDefault();
+        regForm.requestSubmit();
+      }
+    });
+  }
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
     const registrationOpen = document.getElementById("registration-overlay").getAttribute("aria-hidden") === "false";

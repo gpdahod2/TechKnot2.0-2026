@@ -374,60 +374,58 @@
               </div>
               <div class="error-msg"></div>
             </div>
-      </div>
-      </fieldset>
+          </fieldset>
 
-      <fieldset class="form-section">
-        <legend>PRIMARY CONTACT</legend>
-        <div class="input-group">
-          <label for="department">DEPARTMENT</label>
-          <div class="input-wrapper">
-            <input type="text" id="department" name="department" value="COMPUTER" readonly>
-            <div class="input-corners"></div>
+          <fieldset class="form-section">
+            <legend>PRIMARY CONTACT</legend>
+            <div class="input-group">
+              <label for="department">DEPARTMENT</label>
+              <div class="input-wrapper">
+                <input type="text" id="department" name="department" value="COMPUTER" readonly>
+                <div class="input-corners"></div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="contact-phone">PRIMARY CONTACT PHONE</label>
+              <div class="input-wrapper">
+                <input type="tel" id="contact-phone" name="contactPhone" placeholder="ENTER PHONE NUMBER" required>
+                <div class="input-corners"></div>
+              </div>
+              <div class="error-msg"></div>
+            </div>
+            <div class="input-group">
+              <label for="contact-email">PRIMARY CONTACT EMAIL</label>
+              <div class="input-wrapper">
+                <input type="email" id="contact-email" name="contactEmail" placeholder="ENTER EMAIL" required>
+                <div class="input-corners"></div>
+              </div>
+              <div class="error-msg"></div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-section" id="team-members-section">
+            <legend>TEAM MEMBERS</legend>
+            <div id="members-container">
+              <!-- Dynamically populated -->
+            </div>
+          </fieldset>
+
+          <fieldset class="form-section confirmation-section">
+            <label class="checkbox-label">
+              <input type="checkbox" id="confirm-check" required>
+              <span class="custom-checkbox"></span>
+              I confirm that the information provided is correct.
+            </label>
+            <div class="error-msg"></div>
+          </fieldset>
+
+          <div class="form-submit-wrapper">
+            <button type="submit" id="submit-registration" class="register-cta">
+              <span class="btn-text">SUBMIT REGISTRATION</span>
+              <div class="cta-scan"></div>
+            </button>
           </div>
-        </div>
-        </div>
-        <div class="input-group">
-          <label for="contact-phone">PRIMARY CONTACT PHONE</label>
-          <div class="input-wrapper">
-            <input type="tel" id="contact-phone" name="contactPhone" placeholder="ENTER PHONE NUMBER" required>
-            <div class="input-corners"></div>
-          </div>
-          <div class="error-msg"></div>
-        </div>
-        <div class="input-group">
-          <label for="contact-email">PRIMARY CONTACT EMAIL</label>
-          <div class="input-wrapper">
-            <input type="email" id="contact-email" name="contactEmail" placeholder="ENTER EMAIL" required>
-            <div class="input-corners"></div>
-          </div>
-          <div class="error-msg"></div>
-        </div>
-      </fieldset>
-
-      <fieldset class="form-section" id="team-members-section">
-        <legend>TEAM MEMBERS</legend>
-        <div id="members-container">
-          <!-- Dynamically populated -->
-        </div>
-      </fieldset>
-
-      <fieldset class="form-section confirmation-section">
-        <label class="checkbox-label">
-          <input type="checkbox" id="confirm-check" required>
-          <span class="custom-checkbox"></span>
-          I confirm that the information provided is correct.
-        </label>
-        <div class="error-msg"></div>
-      </fieldset>
-
-      <div class="form-submit-wrapper">
-        <button type="submit" id="submit-registration" class="register-cta">
-          <span class="btn-text">SUBMIT REGISTRATION</span>
-          <div class="cta-scan"></div>
-        </button>
-      </div>
-      </form>
+        </form>
 
       <div id="registration-success" class="registration-success" style="display: none;">
         <div class="success-content">
