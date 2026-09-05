@@ -1674,14 +1674,14 @@ html.intro-complete .events-section {
 .event-module p {
   margin: 0 0 18px;
   color: rgba(10, 110, 211, 0.82);
-  font-size: 0.7rem;
+  font-size: 0.78rem;
 }
 
 .event-module h3 {
   margin: 0;
   max-width: 11ch;
   color: #eaf7ff;
-  font-size: clamp(1.45rem, 2.5vw, 2.35rem);
+  font-size: clamp(1.6rem, 2.8vw, 2.5rem);
   line-height: 0.94;
   letter-spacing: 0;
   text-shadow: 0 0 20px rgba(10, 110, 211, 0.36);
@@ -1691,7 +1691,7 @@ html.intro-complete .events-section {
   display: block;
   margin-top: 9px;
   color: rgba(96, 112, 134, 0.96);
-  font-size: 0.66rem;
+  font-size: 0.74rem;
 }
 
 .event-module dl {
@@ -1712,22 +1712,22 @@ html.intro-complete .events-section {
 .event-module dt {
   margin-bottom: 4px;
   color: rgba(96, 112, 134, 0.9);
-  font-size: 0.6rem;
+  font-size: 0.68rem;
 }
 
 .event-module dd {
   margin: 0;
   color: rgba(234, 247, 255, 0.84);
-  font-size: 0.72rem;
+  font-size: 0.8rem;
 }
 
 .event-module button {
   width: 100%;
-  min-height: 38px;
+  min-height: 40px;
   color: rgba(234, 247, 255, 0.92);
   background: rgba(5, 78, 152, 0.08);
   border: 1px solid rgba(10, 110, 211, 0.42);
-  font: 700 0.68rem / 1 "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font: 700 0.76rem / 1 "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   letter-spacing: 0.16em;
   cursor: pointer;
 }
@@ -3480,14 +3480,14 @@ html.intro-complete .hero-video-stage,
 .footer-kicker {
   color: rgba(234, 247, 255, 0.6);
   font-family: inherit;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   letter-spacing: 0.2em;
   margin-bottom: 4px;
 }
 
 .footer-brand {
   color: #fff;
-  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-size: clamp(1.15rem, 2.2vw, 1.6rem);
   font-weight: 600;
   letter-spacing: 0.1em;
   text-shadow: 0 0 10px rgba(10, 110, 211, 0.4);
@@ -3496,7 +3496,7 @@ html.intro-complete .hero-video-stage,
 
 .footer-dept {
   color: #0A6ED3;
-  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  font-size: clamp(1.02rem, 1.7vw, 1.25rem);
   letter-spacing: 0.15em;
   font-weight: 500;
   margin: 0;
@@ -3526,10 +3526,10 @@ html.intro-complete .hero-video-stage,
   }
 
   .footer-brand {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
   }
 
   .footer-dept {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
   }
 }

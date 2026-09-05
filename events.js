@@ -88,16 +88,15 @@ const eventData = [
     rules: [
       "Both hardware and software projects are permitted.",
       "Each team gets a maximum of 10 minutes for presentation, followed by a 5-minute Q&A session.",
-      "Teams must bring their own working prototype or demonstrate a live software build.",
       "Plagiarism or copying from existing open-source projects without significant modification is strictly prohibited.",
       "Judges' evaluation and scoring are final and binding.",
       "Teams must set up their projects within the designated time before presentations begin.",
       "Use of offensive, discriminatory, or politically sensitive content in any project is not permitted.",
       "Teams failing to report at the designated time will be disqualified."
     ],
-    minMembers: 4,
+    minMembers: 1,
     maxMembers: 4,
-    participantsText: "4 MEMBERS",
+    participantsText: "1 TO 4 MEMBERS",
     format: "PRESENTATION + Q&A",
     rounds: [
       { label: "SETUP PHASE", desc: "Teams set up demonstrations and displays at assigned stations." },
@@ -114,7 +113,7 @@ const eventData = [
     ],
     eligibility: [
       "Open to all enrolled students of the college.",
-      "Team must consist of exactly 4 members.",
+      "Team can consist of 1 to 4 members.",
       "Cross-department teams are allowed.",
       "Each student can participate in only one team per event."
     ]
