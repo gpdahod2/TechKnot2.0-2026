@@ -804,13 +804,17 @@ html.intro-complete .space-canvas {
 
 .hero-giant-version {
   position: absolute;
-  right: -0.26em;
-  bottom: -0.27em;
+  right: -0.1em;
+  bottom: -0.2em;
   z-index: 1;
-  color: rgba(10, 110, 211, 0.08);
-  font: 200 clamp(19rem, 45vw, 46rem) / 0.72 "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  letter-spacing: 0;
-  text-shadow: 0 0 62px rgba(5, 78, 152, 0.14);
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(10, 110, 211, 0.12);
+  font-family: inherit;
+  font-size: clamp(18rem, 44vw, 45rem);
+  font-weight: 900;
+  line-height: 0.72;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 60px rgba(10, 110, 211, 0.1);
   transform: translate3d(0, 0, 0);
   user-select: none;
   will-change: transform, opacity;
@@ -942,12 +946,18 @@ html.intro-complete .space-canvas {
 
 .hero-version {
   justify-self: end;
-  margin-top: -0.2em;
-  margin-right: clamp(0.18em, 3vw, 0.42em);
-  color: #0A6ED3;
-  font: 300 clamp(2.2rem, 6.6vw, 6.4rem) / 0.86 "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  letter-spacing: 0.28em;
-  text-shadow: 0 0 18px rgba(10, 110, 211, 0.34);
+  margin-top: -0.15em;
+  margin-right: clamp(0.1em, 2vw, 0.3em);
+  font-family: inherit;
+  font-size: clamp(2.4rem, 6.8vw, 6.4rem);
+  font-weight: 900;
+  line-height: 0.86;
+  letter-spacing: 0.04em;
+  background: linear-gradient(135deg, #0A6ED3 0%, #00F0FF 45%, #ffffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 16px rgba(0, 240, 255, 0.55)) drop-shadow(0 0 32px rgba(10, 110, 211, 0.35));
   opacity: 0;
 }
 
@@ -2862,9 +2872,9 @@ html.intro-complete .events-section {
   .hero-version {
     justify-self: center;
     margin-top: 0;
-    margin-right: -0.22em;
-    font-size: clamp(1.55rem, 12vw, 3.2rem);
-    letter-spacing: 0.24em;
+    margin-right: 0;
+    font-size: clamp(1.8rem, 10vw, 3.4rem);
+    letter-spacing: 0.04em;
   }
 
   .hero-tagline {
@@ -3078,6 +3088,7 @@ html.intro-complete .events-section {
 .footer-brand-block p {
   margin: 0;
   color: rgba(234, 247, 255, 0.72);
+  font-size: 0.88rem;
   font-weight: 700;
   letter-spacing: 0.22em;
 }
@@ -3115,7 +3126,7 @@ html.intro-complete .events-section {
 .footer-column h2 {
   margin: 0 0 6px;
   color: rgba(10, 110, 211, 0.74);
-  font-size: 0.68rem;
+  font-size: 0.8rem;
   letter-spacing: 0.24em;
 }
 
@@ -3125,7 +3136,7 @@ html.intro-complete .events-section {
 .footer-column strong {
   overflow-wrap: anywhere;
   color: rgba(234, 247, 255, 0.64);
-  font-size: 0.72rem;
+  font-size: 0.84rem;
   text-align: left;
 }
 
@@ -3137,7 +3148,7 @@ html.intro-complete .events-section {
 
 .footer-column strong {
   color: rgba(234, 247, 255, 0.9);
-  font-size: 0.92rem;
+  font-size: 1.05rem;
 }
 
 .footer-base {
@@ -3147,7 +3158,12 @@ html.intro-complete .events-section {
   padding-top: 18px;
   border-top: 1px solid rgba(10, 110, 211, 0.12);
   color: rgba(234, 247, 255, 0.46);
-  font-size: 0.66rem;
+  font-size: 0.78rem;
+}
+
+.footer-base h3 {
+  margin: 0;
+  font-size: 1rem;
 }
 
 @keyframes footerNodeTravel {
