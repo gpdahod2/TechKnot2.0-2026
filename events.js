@@ -100,7 +100,8 @@ const eventData = [
       "Judges' evaluation and scoring are final and binding.",
       "Teams must set up their projects within the designated time before presentations begin.",
       "Use of offensive, discriminatory, or politically sensitive content in any project is not permitted.",
-      "Teams failing to report at the designated time will be disqualified."
+      "Teams failing to report at the designated time will be disqualified.",
+      "No cross-event participation for the same time slot."
     ],
     minMembers: 1,
     maxMembers: 4,
@@ -120,9 +121,9 @@ const eventData = [
       { criterion: "Q&A Handling", weightage: "10%" }
     ],
     eligibility: [
-      "Open to students of the Computer Department.",
-      "Team can consist of 1 to 4 members.",
-      "Each student can participate in only one team per event."
+      "Open to all enrolled students of the Computer Department.",
+      "Each student may participate in only one team.",
+      "Team size: minimum 1, maximum 4 members."
     ]
   },
   {
