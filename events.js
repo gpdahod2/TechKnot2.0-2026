@@ -342,38 +342,39 @@ const eventData = [
     moduleName: "TRUST WALK",
     time: "3:00 PM",
     venue: "Open Courtyard — Ground Floor",
-    duration: "45 Minutes",
+    duration: "4 ROUNDS · 4-5 MINUTES EACH",
     coordinators: ["Patel Mihir", "Ronaldo"],
-    description: "Navigate a technical obstacle course while completely blindfolded, guided only by your partner's voice commands. Blind Sync is the ultimate test of trust, communication clarity, and teamwork under pressure — one wrong instruction and everything falls apart.",
+    description: "A two-player trust and communication challenge. One player is blindfolded and must reach the finish line by following the other player's voice instructions without touching obstacles or leaving the track.",
     rules: [
-      "Blindfolds must remain on the participant at all times during the course — removal results in immediate disqualification.",
-      "Only the navigator (non-blindfolded partner) may speak during the challenge. The blindfolded participant may only respond and act.",
-      "Physical contact from the navigator is strictly not permitted — guidance must be voice-only.",
-      "Teams must complete the obstacle course without knocking over more than 3 obstacles to qualify for scoring.",
-      "Teams will be assigned their start time — late teams forfeit their run.",
-      "Observers must maintain silence during an active team's run.",
-      "The fastest clean completion with fewest errors wins.",
-      "Organizers' decisions on penalties and timing are final."
+      "Only 2 players are allowed: one blindfolded player and one guide.",
+      "The blindfolded player cannot remove the blindfold during the game.",
+      "The guide cannot touch or push the blind player.",
+      "The guide must use voice instructions only; no physical assistance is allowed.",
+      "No shouting or unnecessary noise is allowed.",
+      "The blind player must not cheat by peeking.",
+      "The track may contain simple safe obstacles such as cones, chairs, or tape marks.",
+      "Touching an obstacle or going outside the track results in immediate disqualification.",
+      "If the blind player needs physical help, the referee may restart the current round."
     ],
     minMembers: 2,
     maxMembers: 2,
     participantsText: "2 MEMBERS",
-    format: "TIMED OBSTACLE COURSE",
+    format: "4-ROUND TRUST CHALLENGE",
     rounds: [
-      { label: "BRIEFING & ROLE ASSIGNMENT", desc: "Each pair is briefed on the course layout. Roles (blindfolded vs. navigator) are decided before the run." },
-      { label: "TIMED OBSTACLE RUN", desc: "The blindfolded participant navigates the full obstacle course guided exclusively by their partner's voice." },
-      { label: "SCORING & LEADERBOARD", desc: "Time taken and number of obstacles hit are recorded. Leaderboard updated after each run." },
-      { label: "FINALS", desc: "Top teams compete in the final round on a more complex course variation." }
+      { label: "EASY", desc: "The blindfolded player follows the guide's voice instructions through the easiest track." },
+      { label: "MEDIUM", desc: "The pair advances through a more demanding track while maintaining clear communication." },
+      { label: "HARD", desc: "The pair completes the difficult track without touching obstacles or leaving the boundaries." },
+      { label: "FINAL", desc: "The pair completes the final track. Any disqualification prevents the team from winning." }
     ],
     judging: [
-      { criterion: "Course Completion Time", weightage: "50%" },
-      { criterion: "Obstacles Avoided", weightage: "30%" },
-      { criterion: "Communication Efficiency", weightage: "20%" }
+      { criterion: "All Four Rounds Completed", weightage: "40%" },
+      { criterion: "No Disqualifications", weightage: "35%" },
+      { criterion: "Communication & Teamwork", weightage: "25%" }
     ],
     eligibility: [
-      "Team must consist of exactly 2 members.",
-      "Open to all enrolled students of the college.",
-      "Participants with any physical conditions that may be affected by blindfolding should inform coordinators in advance.",
+      "Each team must consist of exactly 2 players.",
+      "One player must take the blindfolded role and one player must be the guide.",
+      "Both players must be able to follow safety instructions from the organizers.",
       "Each student may participate in only one pair for this event."
     ]
   }
