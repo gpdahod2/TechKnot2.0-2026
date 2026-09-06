@@ -703,52 +703,181 @@ function openRegistration(eventId) {
               <div class="input-corners"></div>
             </div>
           </div>` : "";
-
-    if (isFreeFire) {
-      membersContainer.innerHTML += `
-        <div class="player-fieldset ${requiredClass}">
-          <h4>PLAYER ${memberNum} ${!isRequired ? '(OPTIONAL)' : ''}</h4>
-          <div class="input-group">
-            <label for="player-ign-${i}">IN-GAME NAME (IGN)</label>
-            <div class="input-wrapper">
-              <input type="text" id="player-ign-${i}" name="player${i}Ign" placeholder="ENTER PLAYER IGN" ${isRequired}>
-              <div class="input-corners"></div>
-            </div>
-          </div>
-          <div class="input-group">
-            <label for="player-uid-${i}">UID</label>
-            <div class="input-wrapper">
-              <input type="text" id="player-uid-${i}" name="player${i}Uid" placeholder="ENTER PLAYER UID" inputmode="numeric" ${isRequired}>
-              <div class="input-corners"></div>
-            </div>
-          </div>
-          </div>
-        </div>
-      `;
-    } else {
-      membersContainer.innerHTML += `
-        <div class="player-fieldset ${requiredClass}">
-          <div class="input-group">
-            <label for="member-${i}">${memberLabel} ${!isRequired ? '(OPTIONAL)' : ''}</label>
-            <div class="input-wrapper">
-              <input type="text" id="member-${i}" name="member${i}" placeholder="ENTER NAME" ${isRequired}>
-              <div class="input-corners"></div>
-            </div>
-          </div>
-          <div class="input-group">
-            <label for="enrollment-${i}">${enrollmentLabel}</label>
-            <div class="input-wrapper">
-              <input type="text" id="enrollment-${i}" name="enrollment${i}" placeholder="ENTER ENROLLMENT NO." ${isRequired}>
-              <div class="input-corners"></div>
-            </div>
-          </div>
-          </div>
-${semesterHtml}
-        </div>
-      `;
-    }
   }
 
+   // ============================================================
+// GENERATE REGISTRATION FIELDS
+// ============================================================
+
+if (event.id === "code-hunt") {
+
+  // -----------------------------
+  // CODEBREAK — INDIVIDUAL
+  // -----------------------------
+  membersContainer.innerHTML = `
+    <div class="player-fieldset required">
+
+      <div class="input-group">
+        <label for="member-1">YOUR NAME</label>
+        <div class="input-wrapper">
+          <input
+            type="text"
+            id="member-1"
+            name="member1"
+            placeholder="ENTER YOUR NAME"
+            required
+            autocomplete="name"
+          >
+          <div class="input-corners"></div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="enrollment-1">YOUR ENROLLMENT NUMBER</label>
+        <div class="input-wrapper">
+          <input
+            type="text"
+            id="enrollment-1"
+            name="enrollment1"
+            placeholder="ENTER ENROLLMENT NUMBER"
+            required
+            autocomplete="off"
+          >
+          <div class="input-corners"></div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="semester-1">SEMESTER</label>
+        <div class="input-wrapper">
+          <select
+            id="semester-1"
+            name="semester1"
+            required
+          >
+            <option value="" disabled selected>SELECT SEMESTER</option>
+            <option value="1">SEM 1</option>
+            <option value="3">SEM 3</option>
+            <option value="5">SEM 5</option>
+          </select>
+          <div class="input-corners"></div>
+        </div>
+      </div>
+
+    </div>
+  `;
+
+} else if (isFreeFire) {
+
+  // -----------------------------
+  // FINAL STRIKE
+  // -----------------------------
+  for (let i = 1; i <= event.maxMembers; i++) {
+
+    const memberNum = i.toString().padStart(2, "0");
+    const isRequired = i <= event.minMembers ? "required" : "";
+    const requiredClass = isRequired ? "required" : "optional";
+
+    membersContainer.innerHTML += `
+      <div class="player-fieldset ${requiredClass}">
+
+        <h4>
+          PLAYER ${memberNum}
+          ${!isRequired ? "(OPTIONAL)" : ""}
+        </h4>
+
+        <div class="input-group">
+          <label for="player-ign-${i}">IN-GAME NAME (IGN)</label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="player-ign-${i}"
+              name="player${i}Ign"
+              placeholder="ENTER PLAYER IGN"
+              ${isRequired}
+            >
+            <div class="input-corners"></div>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="player-uid-${i}">UID</label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="player-uid-${i}"
+              name="player${i}Uid"
+              placeholder="ENTER PLAYER UID"
+              inputmode="numeric"
+              ${isRequired}
+            >
+            <div class="input-corners"></div>
+          </div>
+        </div>
+
+      </div>
+    `;
+  }
+
+} else {
+
+  // -----------------------------
+  // ALL OTHER TEAM EVENTS
+  // -----------------------------
+  for (let i = 1; i <= event.maxMembers; i++) {
+
+    const memberNum = i.toString().padStart(2, "0");
+    const isRequired = i <= event.minMembers ? "required" : "";
+    const requiredClass = isRequired ? "required" : "";
+
+    const memberLabel =
+      `TEAM MEMBER ${memberNum} NAME`;
+
+    const enrollmentLabel =
+      `TEAM MEMBER ${memberNum} ENROLLMENT`;
+
+    membersContainer.innerHTML += `
+      <div class="player-fieldset ${requiredClass}">
+
+        <div class="input-group">
+          <label for="member-${i}">
+            ${memberLabel}
+            ${!isRequired ? "(OPTIONAL)" : ""}
+          </label>
+
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="member-${i}"
+              name="member${i}"
+              placeholder="ENTER NAME"
+              ${isRequired}
+            >
+            <div class="input-corners"></div>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="enrollment-${i}">
+            ${enrollmentLabel}
+          </label>
+
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="enrollment-${i}"
+              name="enrollment${i}"
+              placeholder="ENTER ENROLLMENT NO."
+              ${isRequired}
+            >
+            <div class="input-corners"></div>
+          </div>
+        </div>
+
+      </div>
+    `;
+  }
+}
   // Reset Form State
 // Reset Form State
   form.reset();
@@ -994,27 +1123,66 @@ function handleRegistrationSubmit(e) {
     members: []
   };
 
-  if (isFreeFire) {
-    registrationPayload.players = Array.from(document.querySelectorAll(".player-fieldset")).map((group, index) => {
-      const ignInput = group.querySelector(`[name="player${index + 1}Ign"]`);
-      const uidInput = group.querySelector(`[name="player${index + 1}Uid"]`);
-      return {
-        ign: ignInput ? ignInput.value.trim() : "",
-        uid: uidInput ? uidInput.value.trim() : ""
-      };
+ if (isFreeFire) {
+
+    registrationPayload.players = Array.from(
+        document.querySelectorAll("#members-container .player-fieldset")
+    ).map((group, index) => {
+
+        const ignInput = group.querySelector(`[name="player${index + 1}Ign"]`);
+        const uidInput = group.querySelector(`[name="player${index + 1}Uid"]`);
+
+        return {
+            ign: ignInput ? ignInput.value.trim() : "",
+            uid: uidInput ? uidInput.value.trim() : ""
+        };
+
     }).filter(p => p.ign || p.uid);
-  } else {
-    registrationPayload.members = Array.from(document.querySelectorAll("#members-container .player-fieldset")).map((group, index) => {
-      const memberInput = group.querySelector(`[name="member${index + 1}"]`);
-      const enrollInput = group.querySelector(`[name="enrollment${index + 1}"]`);
-      const semInput = group.querySelector(`[name="semester${index + 1}"]`);
+
+} else if (eventId === "code-hunt") {
+
+    // CODEBREAK — explicitly read each field by ID
+    const nameInput = document.getElementById("member-1");
+    const enrollmentInput = document.getElementById("enrollment-1");
+    const semesterInput = document.getElementById("semester-1");
+
+    registrationPayload.members = [{
+        name: nameInput ? nameInput.value.trim() : "",
+        enrollment: enrollmentInput ? enrollmentInput.value.trim() : "",
+        semester: semesterInput ? semesterInput.value : ""
+    }];
+
+} else {
+
+    // Normal team events
+        registrationPayload.members = Array.from(
+      document.querySelectorAll(
+        "#members-container .player-fieldset"
+      )
+    ).map((group, index) => {
+
+      const memberNumber = index + 1;
+
+      const memberInput =
+        document.getElementById(`member-${memberNumber}`);
+
+      const enrollmentInput =
+        document.getElementById(`enrollment-${memberNumber}`);
+
       return {
-        name: memberInput ? memberInput.value.trim() : "",
-        enrollment: enrollInput ? enrollInput.value.trim() : "",
-        semester: semInput ? semInput.value : ""
+        name: memberInput
+          ? memberInput.value.trim()
+          : "",
+
+        enrollment: enrollmentInput
+          ? enrollmentInput.value.trim()
+          : "",
+
+        semester: ""
       };
-    }).filter(m => m.name || m.enrollment);
-  }
+
+    });
+}
 
   form.dataset.registrationPayload = JSON.stringify(registrationPayload);
 
