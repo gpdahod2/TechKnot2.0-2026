@@ -1193,7 +1193,7 @@ function handleRegistrationSubmit(e) {
   submitBtn.disabled = true;
 
   // Google Apps Script Web App Endpoint URL
-  const APPS_SCRIPT_URL = window.TECHNOT_APPS_SCRIPT_URL || "https://script.google.com/macros/s/AKfycbx8b1ZpsJlxKiySi7yifacOw82VhJI7CTbZ2O8yI83lAgwutLYPPVgR4oxHgQ93T25yuA/exec";
+  const APPS_SCRIPT_URL = window.TECHNOT_APPS_SCRIPT_URL || "https://script.google.com/macros/s/AKfycbxGnTs-YDcBuK4y-kNUFIgke4Pic5kVkPfvAyyXnJdZoNgcd-9zORmnYVYY5o2xl4_i/exec";
 
   const tl = gsap.timeline();
   tl.to(btnText, { opacity: 0, duration: 0.2, onComplete: () => btnText.textContent = "PROCESSING..." })
