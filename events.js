@@ -84,7 +84,15 @@ const eventData = [
     venue: "Main Seminar Hall",
     duration: "2 Hours",
     coordinators: ["Mustafa", "Ibrahim"],
-    description: "Showcase cutting-edge hardware and software projects to a panel of industry experts and academic judges. IdeaForge challenges teams to present innovative, working solutions that address real-world problems — from prototypes to fully functional systems.",
+    description: `Innovative Project Presentation is a technical competition where participants are challenged
+  to identify a real-life problem and develop an innovative technical solution to address it.
+  Participants are expected to present their project/idea/prototype, explain how their solution
+  works, demonstrate their project/idea/prototype(if available), and convince the jury that
+  their solution is innovative, technically feasible, financially practical, and useful in the real
+  world.
+  The competition is not simply about creating a project or preparing a presentation. It is
+  about demonstrating the complete journey:
+  REAL-LIFE PROBLEM → IDEA → TECHNICAL SOLUTION → PROTOTYPE → IMPACT`,
     rules: [
       "Both hardware and software projects are permitted.",
       "Each team gets a maximum of 10 minutes for presentation, followed by a 5-minute Q&A session.",
@@ -128,7 +136,13 @@ const eventData = [
     venue: "Computer Lab — Block B",
     duration: "90 Minutes",
     coordinators: ["Shreya", "Anshu"],
-    description: "Test your knowledge across multiple domains of computer science and technology in this fast-paced, multi-round quiz competition. MindMatrix rewards both depth of knowledge and quick thinking — covering topics from programming and networking to emerging technologies and general tech awareness.",
+    description: `The Technical Quiz is a knowledge-based competition designed to test participants' understanding of
+  computers, technology, programming, science, cybersecurity, and the digital world. Participants will
+  face questions across multiple areas, requiring both technical knowledge and quick thinking. The quiz
+  will challenge participants to recall information, analyze questions, and respond accurately within a
+  limited time. Along with knowledge, speed, accuracy, logical reasoning, and presence of mind will play
+  an important role. The participant or team with the highest overall performance will be declared the
+  winner.`,
     rules: [
       "No mobile devices, smartwatches, or any external electronic devices are allowed inside the quiz hall.",
       "Teams must arrive at least 10 minutes before the event begins.",
@@ -169,7 +183,8 @@ const eventData = [
     venue: "Exhibition Corridor — Ground Floor",
     duration: "1.5 Hours",
     coordinators: ["Alefiya", "Zainab"],
-    description: "Design and present a visually compelling poster that communicates cybersecurity awareness, defense mechanisms, or emerging cyber threats. CyberCanvas is where design meets security — teams must balance technical accuracy with creative visual storytelling.",
+    description: `Cyber Awareness Poster Presentation is a creative event focused on spreading awareness about cybercrime, cybersecurity, online safety, digital privacy, and responsible use of technology. Participants will create an informative and visually appealing digital poster that communicates an important cybersecurity message to the audience.
+  The event combines technical awareness with creativity and effective communication. Participants are expected to present their topic in a simple, engaging, and impactful manner so that the message can be easily understood. Posters will be evaluated based on creativity, relevance, accuracy of information, visual appeal, clarity of message, and overall impact.`,
     rules: [
       "Posters must be physically printed and mounted — digital-only displays are not accepted.",
       "Poster dimensions: A1 size (594mm × 841mm) — no larger, no smaller.",
@@ -213,7 +228,23 @@ const eventData = [
     venue: "Programming Lab — Block C",
     duration: "2 Hours",
     coordinators: ["Shabbir", "Rehan"],
-    description: "An intense individual competitive programming challenge where you navigate a series of algorithmic modules. Each solved problem outputs a clue that leads to the next module — speed and accuracy both matter. Only the sharpest coders finish the trail.",
+    description: `C Coding Challenge is an individual programming competition designed to test
+  participants' understanding of C programming, logical thinking, problem-solving
+  ability, and implementation skills.
+
+  Unlike a traditional debugging competition,
+  participants will create their own C programs from scratch based on a
+  problem description provided by the organizers.
+
+  The competition consists of three
+  progressive levels, with 15 minutes allocated to each level. Each
+  level becomes more challenging and requires participants to apply a wider range
+  of programming concepts.
+
+  The objective is simple:
+
+  Understand the problem. Think about the
+  solution. Write the code. Make it work.`,
     rules: [
       "This is an INDIVIDUAL event — no team participation allowed.",
       "Participants must follow the assigned starting module strictly.",
@@ -257,7 +288,12 @@ const eventData = [
     venue: "Campus-Wide",
     duration: "1.5 Hours",
     coordinators: ["Munira", "Tasneem"],
-    description: "A campus-wide technical treasure hunt where teams solve technical riddles, decode data breadcrumbs, and race to checkpoints hidden across the college. TechTrail tests your tech knowledge, teamwork, and problem-solving speed simultaneously.",
+    description: `The Tech Trail is a knowledge-based and problem-solving competition designed to test participants' understanding of
+  computers, technology, programming, science, cybersecurity, and the digital world. Participants will solve a series of
+  technical clues and challenges using knowledge, logical reasoning, observation, teamwork, and quick thinking.
+  The trail will challenge teams to analyze clues, identify connections, reach checkpoints, and complete tasks within a limited
+  time. Speed, accuracy, logical reasoning, technical knowledge, and effective teamwork will play an important role. The team
+  with the highest overall performance will be declared the winner.`,
     rules: [
       "Teams must stay together at all times — splitting up is not permitted.",
       "All campus property must be respected — damage to property will result in immediate disqualification.",
