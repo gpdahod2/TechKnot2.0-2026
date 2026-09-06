@@ -1273,21 +1273,21 @@ function setupEventsSection() {
     e.preventDefault();
     const eventId = e.currentTarget.getAttribute("data-event-id");
     delete document.body.dataset.registrationSource;
-    openRegistration(eventId);
+
+    const openWhenReady = () => {
+      if (isModalAnimating) {
+        window.setTimeout(openWhenReady, 100);
+        return;
+      }
+      openRegistration(eventId);
+    };
+
+    openWhenReady();
   });
 
   const regForm = document.getElementById("technot-registration-form");
   if (regForm) {
     regForm.addEventListener("submit", handleRegistrationSubmit);
-  }
-  const submitBtn = document.getElementById("submit-registration");
-  if (submitBtn) {
-    submitBtn.addEventListener("click", (e) => {
-      if (regForm && typeof regForm.requestSubmit === "function") {
-        e.preventDefault();
-        regForm.requestSubmit();
-      }
-    });
   }
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
