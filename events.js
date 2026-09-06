@@ -82,7 +82,7 @@ const eventData = [
     moduleName: "INNOVATION ARENA",
     time: "11:30 AM",
     venue: "Main Seminar Hall",
-    duration: "2 Hours",
+    duration: "45 Minutes",
     coordinators: ["Mustafa", "Ibrahim"],
     description: `Innovative Project Presentation is a technical competition where participants are challenged
   to identify a real-life problem and develop an innovative technical solution to address it.
@@ -120,9 +120,8 @@ const eventData = [
       { criterion: "Q&A Handling", weightage: "10%" }
     ],
     eligibility: [
-      "Open to all enrolled students of the college.",
+      "Open to students of the Computer Department.",
       "Team can consist of 1 to 4 members.",
-      "Cross-department teams are allowed.",
       "Each student can participate in only one team per event."
     ]
   },
@@ -167,7 +166,7 @@ const eventData = [
       { criterion: "Round 3 — Buzzer Finale Score", weightage: "40%" }
     ],
     eligibility: [
-      "Open to all enrolled students of the college.",
+      "Open to students of the Computer Department.",
       "Team must consist of exactly 3 members.",
       "No cross-event participation for the same time slot.",
       "Each student may participate in only one team."
@@ -212,7 +211,7 @@ const eventData = [
       { criterion: "Q&A Response", weightage: "10%" }
     ],
     eligibility: [
-      "Open to all enrolled students.",
+      "Open to students of the Computer Department.",
       "Team size: minimum 2, maximum 4 members.",
       "Inter-department teams are allowed.",
       "Each student may be part of only one team for this event."
@@ -246,35 +245,30 @@ const eventData = [
   Understand the problem. Think about the
   solution. Write the code. Make it work.`,
     rules: [
-      "This is an INDIVIDUAL event — no team participation allowed.",
-      "Participants must follow the assigned starting module strictly.",
-      "Each module's program output specifies the next module to visit — do not skip or reorder.",
-      "Accessing another participant's code, computer, solution, or clues is strictly prohibited.",
-      "Sharing answers or solutions between participants is prohibited.",
-      "Tampering with the website, competition system, database, or any technical infrastructure is strictly prohibited and will result in permanent disqualification.",
-      "Unauthorized external assistance, including AI tools, direct solution searching, or pre-written code libraries beyond standard I/O, is not allowed.",
-      "Participants must immediately report any technical issues to the event coordinator.",
-      "Any form of cheating, misconduct, or unfair practice results in disqualification.",
-      "Participants must maintain discipline and respect fellow participants, organizers, and volunteers."
+      "Each participant must solve the problems independently.",
+      "Each level has a maximum time of 15 minutes.",
+      "All programs must be written in C.",
+      "Participants must submit their solution before the specified time expires."
     ],
     minMembers: 1,
     maxMembers: 1,
     participantsText: "INDIVIDUAL",
-    format: "MULTI-MODULE TRAIL",
+    format: "3 LEVELS · 45 MINUTES",
     rounds: [
-      { label: "MODULE ASSIGNMENT", desc: "Each participant is assigned a unique starting programming module at the beginning." },
-      { label: "CODE TRAIL", desc: "Solve each module's challenge — the output reveals your next destination module. Race through all modules." },
-      { label: "FINAL SUBMISSION", desc: "First participant to correctly complete all modules and submit the final answer wins." }
+      { label: "LEVEL 1 · BASIC · 15 MINUTES", desc: "C fundamentals and logic. At the beginning of the level, participants receive one programming problem description and must develop the complete C program." },
+      { label: "LEVEL 2 · INTERMEDIATE · 15 MINUTES", desc: "Problem solving and programming concepts. Participants receive a new problem description and must submit their complete C solution before time expires." },
+      { label: "LEVEL 3 · ADVANCED · 15 MINUTES", desc: "Advanced C and complex logic. The difficulty increases to challenge participants at the highest level of the competition." }
     ],
     judging: [
-      { criterion: "Speed (First to Complete)", weightage: "50%" },
-      { criterion: "Code Correctness & Logic", weightage: "30%" },
-      { criterion: "Number of Modules Completed", weightage: "20%" }
+      { criterion: "Program Correctness", weightage: "40%" },
+      { criterion: "Logic & Problem Solving", weightage: "30%" },
+      { criterion: "Successful Submissions", weightage: "20%" },
+      { criterion: "Time Management", weightage: "10%" }
     ],
     eligibility: [
       "Individual participation only — no teams.",
-      "Open to all enrolled students of the college.",
-      "Basic programming knowledge in at least one language (C, C++, Python, Java) is expected.",
+      "Open to students of the Computer Department.",
+      "All solutions must be written in C.",
       "Participants must bring their own college ID."
     ]
   },
@@ -320,7 +314,7 @@ const eventData = [
       { criterion: "Final Challenge Accuracy", weightage: "20%" }
     ],
     eligibility: [
-      "Open to all enrolled students.",
+      "Open to students of the Computer Department.",
       "Team size: minimum 3, maximum 5 members.",
       "Cross-department teams are allowed.",
       "Each student may participate in only one team."
@@ -364,7 +358,7 @@ const eventData = [
     ],
     eligibility: [
       "Team must consist of exactly 4 players.",
-      "Open to all enrolled students of the college.",
+      "Open to students of the Computer Department.",
       "Players must use their own mobile device — sharing devices is not allowed.",
       "All players must register their in-game name (IGN) and UID during sign-up.",
       "A valid college ID must be presented before match entry."
