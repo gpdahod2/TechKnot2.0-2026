@@ -772,7 +772,6 @@ if (event.id === "code-hunt") {
             id="enrollment-1"
             name="enrollment1"
             placeholder="ENTER ENROLLMENT NUMBER"
-            required
             autocomplete="off"
           >
           <div class="input-corners"></div>
@@ -900,7 +899,6 @@ if (event.id === "code-hunt") {
               id="enrollment-${i}"
               name="enrollment${i}"
               placeholder="ENTER ENROLLMENT NO."
-              ${isRequired}
             >
             <div class="input-corners"></div>
           </div>
