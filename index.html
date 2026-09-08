@@ -100,6 +100,7 @@
         <div class="hero-nav-links">
           <a href="#home" data-nav-target="home" class="is-active">HOME</a>
           <a href="#events" data-nav-target="events">EVENTS</a>
+          <a href="#feedback" data-nav-target="feedback">FEEDBACK</a>
           <a href="#footer" data-nav-target="footer">ABOUT</a>
         </div>
       </nav>
@@ -439,6 +440,52 @@
     </section>
   </main>
 
+  <section class="feedback-section" id="feedback" aria-label="TECHNOT 2.0 feedback">
+    <div class="feedback-network-bg" aria-hidden="true"></div>
+    <div class="feedback-wrapper">
+      <header class="feedback-head">
+        <p>TRANSMIT FEEDBACK</p>
+        <h2>FEEDBACK</h2>
+        <span>SHARE YOUR THOUGHTS ON TECHNOT 2.0</span>
+      </header>
+
+      <form id="technot-feedback-form" class="technot-form feedback-form">
+        <div class="input-group">
+          <label for="feedback-name">YOUR NAME</label>
+          <div class="input-wrapper">
+            <input type="text" id="feedback-name" name="name" placeholder="ENTER YOUR NAME" required>
+            <div class="input-corners"></div>
+          </div>
+          <div class="error-msg"></div>
+        </div>
+
+        <div class="input-group">
+          <label for="feedback-message">YOUR FEEDBACK</label>
+          <div class="input-wrapper">
+            <textarea id="feedback-message" name="message" rows="5" placeholder="TYPE YOUR MESSAGE HERE..." required></textarea>
+            <div class="input-corners"></div>
+          </div>
+          <div class="error-msg"></div>
+        </div>
+
+        <div class="form-submit-wrapper">
+          <button type="submit" id="submit-feedback" class="register-cta">
+            <span class="btn-text">SEND FEEDBACK</span>
+            <div class="cta-scan"></div>
+          </button>
+        </div>
+      </form>
+
+      <div id="feedback-success" class="feedback-success" style="display: none;">
+        <div class="success-content">
+          <h2>MESSAGE RECEIVED</h2>
+          <p>TECHNOT 2.0</p>
+          <p class="status-complete">FEEDBACK // TRANSMITTED</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer id="footer" class="technot-footer">
     <div class="footer-content">
       <p class="footer-kicker">PRESENTED BY</p>
@@ -454,6 +501,7 @@
   <script src="hero.js?v=1"></script>
   <script src="brand-nav.js?v=1"></script>
   <script src="events.js?v=2"></script>
+  <script src="feedback.js?v=1"></script>
 </body>
 
 </html>
