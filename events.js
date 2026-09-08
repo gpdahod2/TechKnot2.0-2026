@@ -195,9 +195,9 @@ const eventData = [
       "Judges may ask questions about the poster's technical content.",
       "Teams must not present another team's work — plagiarism results in immediate disqualification."
     ],
-    minMembers: 2,
+    minMembers: 1,
     maxMembers: 4,
-    participantsText: "2 IS MINIMUM AND 4 IS MAXIMUM",
+    participantsText: "1 TO 4 MEMBERS (TEAM OPTIONAL)",
     format: "POSTER PRESENTATION",
     rounds: [
       { label: "SUBMISSION & DISPLAY SETUP", desc: "Teams mount and set up their A1 poster at the designated exhibition stand." },
@@ -213,7 +213,7 @@ const eventData = [
     ],
     eligibility: [
       "Open to students of the Computer Department.",
-      "Team size: minimum 2, maximum 4 members.",
+      "Team size: minimum 1, maximum 4 members. Team participation is optional.",
       "Inter-department teams are allowed.",
       "Each student may be part of only one team for this event."
     ]
@@ -702,6 +702,7 @@ function openRegistration(eventId) {
   
   const teamNameGroup = document.getElementById("team-name-group");
   const teamInfoLegend = document.getElementById("team-info-legend");
+  const isTeamOptional = event.id === "cyber-awareness";
   
   // Hide Team Name natively if individual
   if (teamNameGroup) {
@@ -711,7 +712,7 @@ function openRegistration(eventId) {
       if (teamInfoLegend) teamInfoLegend.style.display = "none";
     } else {
       teamNameGroup.style.display = "block";
-      document.getElementById("team-name").required = true;
+      document.getElementById("team-name").required = !isTeamOptional;
       if (teamInfoLegend) teamInfoLegend.style.display = "block";
     }
   }
