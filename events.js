@@ -72,6 +72,7 @@ function setupEventsCanvas() {
 }
 
 let isModalAnimating = false;
+const REGISTRATIONS_OPEN = false;
 
 const eventData = [
   {
@@ -550,6 +551,9 @@ function openEventDetails(eventId, clickedModule) {
   const registerBtn = document.getElementById("detail-register-btn");
   registerBtn.setAttribute("data-event-id", event.id);
   registerBtn.href = "#";
+  registerBtn.textContent = "REGISTRATION CLOSED";
+  registerBtn.setAttribute("aria-disabled", "true");
+  registerBtn.classList.add("is-registration-closed");
   document.body.classList.add("modal-open");
 
   // GSAP Cinematic Transition
@@ -675,6 +679,7 @@ function closeEventDetails() {
 }
 
 function openRegistration(eventId) {
+  if (!REGISTRATIONS_OPEN) return;
   if (isModalAnimating) return;
   const event = eventData.find(e => e.id === eventId);
   if (!event) return;
@@ -1087,6 +1092,7 @@ function sendToAppsScript(url, payload) {
 
 function handleRegistrationSubmit(e) {
   e.preventDefault();
+  if (!REGISTRATIONS_OPEN) return;
   const form = e.target;
   let isValid = true;
   const isFreeFire = document.getElementById("reg-event-id").value === "freefire";
